@@ -1,68 +1,65 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap'); /*Pixelify*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap'); /*Montserrat*/
+@import "tailwindcss";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@theme {
+    --font-pixelify-sans: "Pixelify Sans", sans-serif;
+    --font-montserrat: "Montserrat", sans-serif;
+    --color-primary: #0E0E14;
+    --color-button-primary: #4C3F77;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+@layer base {
+    body {
+        min-height: 100dvh;
+        background: #0E0E14;
+        overflow-x: hidden;
+        font-family: var(--font-montserrat);
+    }
+
+    main {
+        @apply flex flex-col gap-[48px] md:gap-16;
+    }
+
+    nav{
+        @apply w-full min-h-[75px] bg-[#231D3A] border-[2px] border-[#0F0D19] flex items-center gap-4 md:justify-between px-4 md:px-10;
+    } 
+
+    h1 {
+        @apply font-pixelify-sans text-2xl md:text-4xl bg-gradient-to-r from-[#FF8811] to-[#579ED5] text-transparent bg-clip-text;
+    }
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
+@layer components {
+    .search {
+        @apply w-full max-w-[800px] bg-[#1A162A] border-[2px] border-[#000000]/35 h-8 rounded-full px-2 py-0.5;
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+        & div {
+            @apply relative flex items-center;
+        }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+        & img {
+            @apply absolute h-5 w-5 left-1 object-contain;
+        }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+        & input {
+            @apply w-full text-[12px] pl-8 text-white placeholder:text-white py-1 bg-transparent outline-hidden truncate;
+        }
+    }
+
+    .hero {
+        @apply flex flex-col justify-center items-center gap-[20px] md:gap-[26px] w-full px-4 md:px-10;
+
+        .main-liner {
+            @apply text-[#579ED5] font-bold text-2xl md:text-6xl tracking-tighter text-center;
+        }
+
+        .sub-liner {
+            @apply text-[#8e8e8e] text-center text-[14px] md:text-3xl tracking-tighter;
+        }
+    }
+
+    .button {
+        @apply font-pixelify-sans text-white text-[18px] bg-[#4C3F77] px-6 py-1 flex justify-center items-center rounded-[14px] border-[4px] border-[#684F96] cursor-pointer hover:shadow-[0_7px_0_0_#3d3261] hover:-translate-y-[7px] transition-all duration-300 ease-in-out active:shadow-none active:translate-0 active:bg-[#332a50] active:border-[#503d73] active:text-[#a2a2a2] max-w-[200px];
+    }
 }
