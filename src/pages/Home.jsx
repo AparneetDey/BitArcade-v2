@@ -3,6 +3,7 @@ import Button from '../components/Button'
 import Navbar from '../components/Navbar'
 import Game from '../components/Game'
 import Spinner from '../components/Spinner'
+import { useDebounce } from 'react-use'
 
 const API_BASE_URL = 'https://www.cheapshark.com/api/1.0'
 
@@ -15,19 +16,26 @@ const API_OPTION = {
 
 
 const Home = () => {
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
   const [gamesList, setGamesList] = useState([]);
   const [gamesErrorMessage, setGamesErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-	const [searchTerm, setsearchTerm] = useState('');
+  const [searchTerm, setsearchTerm] = useState('');
 
-  
+  useDebounce(() =>
+    setDebouncedSearchTerm(searchTerm),
+    700,
+    [searchTerm]
+  )
 
-  const fetchGames = async () => {
+  const fetchGames = async (query) => {
     setIsLoading(true);
     setGamesErrorMessage('');
 
     try {
-      const endpoint = `${API_BASE_URL}/deals?pageSize=100`;
+      const endpoint = query ?
+        `${API_BASE_URL}/deals?title=${encodeURIComponent(query)}&pageSize=100`
+        : `${API_BASE_URL}/deals?pageSize=100`;
 
       const response = await fetch(endpoint, API_OPTION);
 
@@ -56,31 +64,40 @@ const Home = () => {
 
       console.log(uniqueGames);
 
-      setGamesList(uniqueGames.slice(3,24));
+      if(uniqueGames.length === 0){
+        setGamesErrorMessage('No Games Found');
+        setGamesList(uniqueGames);
+        return
+      }
+
+      setGamesList(uniqueGames.slice(3, 24));
 
     } catch (error) {
       console.log(`Error fetcing games: ${error}`);
     } finally {
-      setGamesErrorMessage('');
       setIsLoading(false);
     }
   }
 
   useEffect(() => {
-    fetchGames()
-  }, [])
+    fetchGames(debouncedSearchTerm)
+  }, [debouncedSearchTerm])
 
 
   return (
     <main>
       <Navbar searchTerm={searchTerm} setsearchTerm={setsearchTerm} />
 
-      <section className='hero'>
-        <p className='main-liner'>From retro gems to modern epics – explore the world of games in one place.</p>
-        <p className='sub-liner'>Detailed insights, game art, trailers, and more – all at your fingertips.</p>
-        <Button content={"Join For Free"} display={'inline'} />
-        <img src="./hero-poster.png" alt="Hero Poster" />
-      </section>
+      {debouncedSearchTerm === '' ?
+        <section className='hero'>
+          <p className='main-liner'>From retro gems to modern epics – explore the world of games in one place.</p>
+          <p className='sub-liner'>Detailed insights, game art, trailers, and more – all at your fingertips.</p>
+          <Button content={"Join For Free"} display={'inline'} />
+          <img src="./hero-poster.png" alt="Hero Poster" />
+        </section> :
+        ''
+      }
+
 
       <section className='px-4 md:px-10 flex flex-col gap-[32px]'>
         <h2>Popular Games</h2>

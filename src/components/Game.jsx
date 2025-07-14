@@ -16,7 +16,7 @@ const Game = ({game: {title, thumb, releaseDate, dealRating, normalPrice}}) => {
 					{year? year : 'N/A'}
 					<span>|</span>
 					<img className='w-[12px] h-[12px] md:w-[15px] md:h-[15px]' src="./Star.png" alt="Star icon" />
-					{dealRating}
+					{dealRating === 0 ? dealRating : 'N/A'}
 					<span>|</span>
 					{`$${normalPrice}`}
 				</div>
