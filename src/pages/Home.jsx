@@ -24,7 +24,7 @@ const Home = () => {
     setGamesErrorMessage('');
 
     try {
-      const endpoint = `${API_BASE_URL}/deals?pageSize=20`;
+      const endpoint = `${API_BASE_URL}/deals?pageSize=100`;
 
       const response = await fetch(endpoint, API_OPTION);
 
@@ -34,7 +34,6 @@ const Home = () => {
 
       const data = await response.json();
 
-      console.log(data);
 
       if (!data && data.length === 0) {
         setGamesErrorMessage(data.error || 'Games can not be loaded');
@@ -42,8 +41,19 @@ const Home = () => {
         return;
       }
 
-      console.log(data.results);
-      setGamesList(data);
+      const uniqueGames = [];
+      const seen = new Set();
+
+      data.forEach((game) => {
+        if (!seen.has(game.title)) {
+          seen.add(game.title);
+          uniqueGames.push(game);
+        }
+      });
+
+      console.log(uniqueGames);
+
+      setGamesList(uniqueGames.slice(0,21));
 
     } catch (error) {
       console.log(`Error fetcing games: ${error}`);
@@ -74,8 +84,10 @@ const Home = () => {
 
         {isLoading ? <Spinner />
           : gamesErrorMessage ? (<p className='text-red-500'>{gamesErrorMessage}</p>)
-          : <div className='all-games'>
-              <Game game={gamesList[0]} />
+            : <div className='all-games'>
+              {gamesList.map((game) => (
+                <Game key={game.gameID} game={game} />
+              ))}
             </div>
         }
       </section>
