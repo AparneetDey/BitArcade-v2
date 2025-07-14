@@ -70,7 +70,7 @@ const Home = () => {
         return
       }
 
-      setGamesList(uniqueGames.slice(3, 24));
+      setGamesList(uniqueGames.slice(0, 21));
 
     } catch (error) {
       console.log(`Error fetcing games: ${error}`);
@@ -97,7 +97,6 @@ const Home = () => {
         </section> :
         ''
       }
-
 
       <section className='px-4 md:px-10 flex flex-col gap-[32px]'>
         <h2>Popular Games</h2>
