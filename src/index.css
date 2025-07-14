@@ -1,5 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap'); /*Pixelify*/
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap'); /*Montserrat*/
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+/*Pixelify*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+/*Montserrat*/
 @import "tailwindcss";
 
 @theme {
@@ -21,12 +23,16 @@
         @apply flex flex-col gap-[48px] md:gap-16;
     }
 
-    nav{
+    nav {
         @apply w-full min-h-[75px] bg-[#231D3A] border-[2px] border-[#0F0D19] flex items-center gap-4 md:justify-between px-4 md:px-10;
-    } 
+    }
 
     h1 {
         @apply font-pixelify-sans text-2xl md:text-4xl bg-gradient-to-r from-[#FF8811] to-[#579ED5] text-transparent bg-clip-text;
+    }
+
+    h2 {
+        @apply text-xl md:text-2xl text-white font-bold;
     }
 }
 
@@ -61,5 +67,27 @@
 
     .button {
         @apply font-pixelify-sans text-white text-[18px] bg-[#4C3F77] px-6 py-1 flex justify-center items-center rounded-[14px] border-[4px] border-[#684F96] cursor-pointer hover:shadow-[0_7px_0_0_#3d3261] hover:-translate-y-[7px] transition-all duration-300 ease-in-out active:shadow-none active:translate-0 active:bg-[#332a50] active:border-[#503d73] active:text-[#a2a2a2] max-w-[200px];
+    }
+
+    .all-games {
+        @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[20px];
+    }
+
+    .game {
+        @apply border-[5px] border-[#9DD9D2] rounded-[24px] relative;
+
+        & img {
+            @apply rounded-[24px] object-cover;
+        }
+
+        .poster::before {
+            content: "";
+            background: linear-gradient(transparent, black);
+            width: 100%;
+            height: 50%;
+            bottom: 0;
+            border-radius: 24px;
+            position: absolute;
+        }
     }
 }
