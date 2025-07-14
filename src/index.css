@@ -74,10 +74,10 @@
     }
 
     .game {
-        @apply border-[5px] border-[#9DD9D2] rounded-[24px] relative;
+        @apply border-[5px] border-[#9DD9D2] rounded-[24px] relative cursor-pointer;
 
         & img {
-            @apply rounded-[24px] object-cover;
+            @apply w-full h-full max-h-[352px] rounded-[20px] object-cover;
         }
 
         .poster::before {
@@ -88,6 +88,18 @@
             bottom: 0;
             border-radius: 24px;
             position: absolute;
+        }
+
+        .details {
+            @apply absolute bottom-2 left-4 text-white;
+        }
+
+        .title {
+            @apply truncate max-w-[300px] text-[16px] md:text-xl;
+        }
+
+        .info {
+            @apply text-[12px] md:text-[16px] text-[#D2D2D2] flex items-center gap-[5px];
         }
     }
 }

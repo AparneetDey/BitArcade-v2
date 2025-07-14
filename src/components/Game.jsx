@@ -1,15 +1,25 @@
 import React from 'react'
 
-const Game = ({game}) => {
+const Game = ({game: {title, thumb, releaseDate, dealRating, normalPrice}}) => {
+	const year = new Date(releaseDate * 1000).getFullYear();
 
 	return (
 		<div className='game'>
 			<div className='poster'>
-				<img src="./no-poster.png" alt="Movie Poster" />
+				<img src={thumb? thumb : './no-poster.png'} alt="Movie Poster" />
 			</div>
-			<div className='absolute bottom-2 left-4 text-white'>
-				<p className='truncate w-[300px]'>{game.title}</p>
-				<p>Game Info</p>
+			<div className='details'>
+				<p className='title'>
+					{title}
+				</p>
+				<div className='info'>
+					{year? year : 'N/A'}
+					<span>|</span>
+					<img className='w-[12px] h-[12px] md:w-[15px] md:h-[15px]' src="./Star.png" alt="Star icon" />
+					{dealRating}
+					<span>|</span>
+					{`$${normalPrice}`}
+				</div>
 			</div>
 		</div>
 	)

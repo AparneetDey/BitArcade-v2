@@ -2,9 +2,7 @@ import React, {useState} from 'react'
 import Search from './Search'
 import Button from './Button'
 
-const Navbar = () => {
-	const [searchTerm, setsearchTerm] = useState('');
-
+const Navbar = ({searchTerm, setsearchTerm}) => {
 	return (
 		<nav className=''>
 			<h1>BitArcade</h1>

@@ -18,6 +18,9 @@ const Home = () => {
   const [gamesList, setGamesList] = useState([]);
   const [gamesErrorMessage, setGamesErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+	const [searchTerm, setsearchTerm] = useState('');
+
+  
 
   const fetchGames = async () => {
     setIsLoading(true);
@@ -53,7 +56,7 @@ const Home = () => {
 
       console.log(uniqueGames);
 
-      setGamesList(uniqueGames.slice(0,21));
+      setGamesList(uniqueGames.slice(3,24));
 
     } catch (error) {
       console.log(`Error fetcing games: ${error}`);
@@ -70,7 +73,7 @@ const Home = () => {
 
   return (
     <main>
-      <Navbar />
+      <Navbar searchTerm={searchTerm} setsearchTerm={setsearchTerm} />
 
       <section className='hero'>
         <p className='main-liner'>From retro gems to modern epics – explore the world of games in one place.</p>
