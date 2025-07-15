@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar'
 import Game from '../components/Game'
 import Spinner from '../components/Spinner'
 import { useDebounce } from 'react-use'
+import { NavLink } from 'react-router'
 
 const API_BASE_URL = 'https://www.cheapshark.com/api/1.0'
 
@@ -92,7 +93,7 @@ const Home = () => {
         <section className='hero'>
           <p className='main-liner'>From retro gems to modern epics – explore the world of games in one place.</p>
           <p className='sub-liner'>Detailed insights, game art, trailers, and more – all at your fingertips.</p>
-          <Button content={"Join For Free"} display={'inline'} />
+          <NavLink to={'/authentication/signup'}><Button content={"Join For Free"} display={'inline'} /></NavLink>
           <img src="./hero-poster.png" alt="Hero Poster" />
         </section> :
         ''

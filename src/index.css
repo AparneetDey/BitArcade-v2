@@ -106,4 +106,44 @@
             @apply text-[12px] md:text-[16px] text-[#D2D2D2] flex items-center gap-[5px];
         }
     }
+
+    .authentication {
+        @apply min-h-screen h-full flex justify-center items-center p-5;
+
+        section {
+            @apply max-w-[824px] w-full h-fit bg-white rounded-2xl relative pb-4
+        }
+
+        img {
+            @apply w-full rounded-t-[14px] object-cover;
+        }
+
+        h2{
+            @apply w-[75%] text-[#000000] lg:text-[#ffffff] text-center tracking-tight;
+        }
+
+        .heading {
+            @apply w-full flex justify-center items-center lg:absolute ;
+        }
+
+        .input-fields {
+            @apply w-full flex justify-center items-center px-5 mt-4;
+        }
+
+        .input-fields .all-inputs {
+            @apply w-full flex flex-col gap-3;
+        }
+
+        .input-fields .all-inputs .input {
+            @apply flex flex-col gap-1;
+        }
+
+        .btn {
+            @apply border-[2px] border-[#000000]/75 rounded-full px-8 py-2 hover:bg-[#cbcbcb] active:bg-[#acacac] cursor-pointer;
+        }
+
+        .bottom {
+            @apply text-center text-[14px] mt-4;
+        }
+    }
 }

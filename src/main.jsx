@@ -8,6 +8,7 @@ import {
 
 import './index.css'
 import Home from './pages/Home'
+import Authentication from './pages/Authentication';
 
 const router = createBrowserRouter([
     {
@@ -15,8 +16,8 @@ const router = createBrowserRouter([
         element: <Home />,
     },
     {
-        path: "/authentication/login",
-        element: <div>Login</div>
+        path: "/authentication/:mode",
+        element: <Authentication />
     }
 ]);
 
