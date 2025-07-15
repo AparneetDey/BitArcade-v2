@@ -24,7 +24,7 @@
     }
 
     nav {
-        @apply w-full min-h-[75px] bg-[#231D3A] border-[2px] border-[#0F0D19] flex items-center gap-4 md:justify-between px-4 md:px-10;
+        @apply w-full min-h-[75px] bg-[#231D3A] border-[2px] border-[#0F0D19] flex items-center gap-4 justify-between px-4 md:px-10;
     }
 
     h1 {

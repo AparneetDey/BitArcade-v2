@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Button = ({ content, display }) => {
+const Button = ({ content}) => {
 	return (
-		<div className={`${display} md:inline`}>
+		<div>
 			<div className='button'>
 				{content}
 			</div>

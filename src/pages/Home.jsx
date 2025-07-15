@@ -5,6 +5,8 @@ import Game from '../components/Game'
 import Spinner from '../components/Spinner'
 import { useDebounce } from 'react-use'
 import { NavLink } from 'react-router'
+import { useScreenSize } from '../components/useScreenSize'
+import Search from '../components/Search'
 
 const API_BASE_URL = 'https://www.cheapshark.com/api/1.0'
 
@@ -65,7 +67,7 @@ const Home = () => {
 
       console.log(uniqueGames);
 
-      if(uniqueGames.length === 0){
+      if (uniqueGames.length === 0) {
         setGamesErrorMessage('No Games Found');
         setGamesList(uniqueGames);
         return
@@ -84,16 +86,20 @@ const Home = () => {
     fetchGames(debouncedSearchTerm)
   }, [debouncedSearchTerm])
 
+  const {width, height} = useScreenSize();
 
   return (
     <main>
-      <Navbar searchTerm={searchTerm} setsearchTerm={setsearchTerm} />
-
+      <div>
+        <Navbar searchTerm={searchTerm} setsearchTerm={setsearchTerm} />
+        {width > 480 ? ''
+        : <Search searchTerm={searchTerm} setsearchTerm={setsearchTerm} />}
+      </div>
       {debouncedSearchTerm === '' ?
         <section className='hero'>
           <p className='main-liner'>From retro gems to modern epics – explore the world of games in one place.</p>
           <p className='sub-liner'>Detailed insights, game art, trailers, and more – all at your fingertips.</p>
-          <NavLink to={'/authentication/signup'}><Button content={"Join For Free"} display={'inline'} /></NavLink>
+          <NavLink to={'/authentication/signup'}><Button content={"Join For Free"} /></NavLink>
           <img src="./hero-poster.png" alt="Hero Poster" />
         </section> :
         ''
