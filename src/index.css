@@ -38,7 +38,7 @@
 
 @layer components {
     .search {
-        @apply w-full max-w-[800px] bg-[#1A162A] border-[2px] border-[#000000]/35 h-8 rounded-full px-2 py-0.5;
+        @apply w-full max-w-[800px] bg-[#1A162A] border-[2px] border-[#000000]/35 h-9 rounded-full px-2 py-1;
 
         & div {
             @apply relative flex items-center;

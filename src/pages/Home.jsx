@@ -23,7 +23,7 @@ const Home = () => {
   const [gamesList, setGamesList] = useState([]);
   const [gamesErrorMessage, setGamesErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [searchTerm, setsearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useDebounce(() =>
     setDebouncedSearchTerm(searchTerm),
@@ -90,10 +90,11 @@ const Home = () => {
 
   return (
     <main>
-      <div>
-        <Navbar searchTerm={searchTerm} setsearchTerm={setsearchTerm} />
+      <div className={width <= 480 ? 'flex flex-col gap-3' : ''}>
+        <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+
         {width > 480 ? ''
-        : <Search searchTerm={searchTerm} setsearchTerm={setsearchTerm} />}
+        : <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
       </div>
       {debouncedSearchTerm === '' ?
         <section className='hero'>
