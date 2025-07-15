@@ -9,6 +9,7 @@
     --font-montserrat: "Montserrat", sans-serif;
     --color-primary: #0E0E14;
     --color-button-primary: #4C3F77;
+    --breakpoint-xs : 480px;
 }
 
 @layer base {
@@ -38,7 +39,7 @@
 
 @layer components {
     .search {
-        @apply w-full max-w-[800px] bg-[#1A162A] border-[2px] border-[#000000]/35 h-9 rounded-full px-2 py-1;
+        @apply w-full max-w-[800px] bg-[#1A162A] border-[2px] border-[#000000]/35 h-11 py-2 xs:h-8 rounded-full px-2 xs:py-0.5;
 
         & div {
             @apply relative flex items-center;
