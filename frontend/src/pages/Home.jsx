@@ -105,8 +105,6 @@ const Home = () => {
 
       const data = await response.json();
 
-      console.log(data);
-
       if(data.data.length === 0){
         setUserData([]);
         return;
@@ -139,7 +137,7 @@ const Home = () => {
         <section className='hero'>
           <p className='main-liner'>From retro gems to modern epics – explore the world of games in one place.</p>
           <p className='sub-liner'>Detailed insights, game art, trailers, and more – all at your fingertips.</p>
-          <NavLink to={'/authentication/signup'}><Button content={"Join For Free"} /></NavLink>
+          {userData.username ? '' : <NavLink to={'/authentication/signup'}><Button content={"Join For Free"} /></NavLink>}
           <img src="./hero-poster.png" alt="Hero Poster" />
         </section> :
         ''

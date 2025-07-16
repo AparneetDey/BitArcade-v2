@@ -55,14 +55,14 @@
     }
 
     .hero {
-        @apply flex flex-col justify-center items-center gap-[20px] md:gap-[26px] w-full px-4 md:px-10;
+        @apply flex flex-col justify-center items-center gap-[20px] w-full px-4 md:px-10;
 
         .main-liner {
             @apply text-[#ffffff] font-bold text-2xl md:text-6xl tracking-tighter text-center;
         }
 
         .sub-liner {
-            @apply text-[#8e8e8e] text-center text-[14px] md:text-3xl tracking-tighter;
+            @apply text-[#8e8e8e] text-center text-[14px] md:text-3xl tracking-tighter mb-5 md:mb-8;
         }
     }
 
