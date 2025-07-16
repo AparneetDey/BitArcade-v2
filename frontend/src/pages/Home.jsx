@@ -19,6 +19,11 @@ const GAMES_API_OPTION = {
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+const API_OPTION = {
+  method: 'GET',
+  credentials: 'include'
+}
+
 const Home = () => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
   const [gamesList, setGamesList] = useState([]);
@@ -92,7 +97,7 @@ const Home = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch(`${API_URL}/user`);
+      const response = await fetch(`${API_URL}/user`, API_OPTION);
 
       if(!response.ok){
         throw new Error('Response is not okay');
