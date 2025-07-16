@@ -4,7 +4,7 @@ const app = express();
 const port = 3000;
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173', 'https://bit-arcade-v2.vercel.app/'],
     credentials: true // if using cookies or auth headers
 }));
 

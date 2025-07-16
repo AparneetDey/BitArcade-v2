@@ -8,15 +8,16 @@ import { NavLink } from 'react-router'
 import { useScreenSize } from '../components/useScreenSize'
 import Search from '../components/Search'
 
-const API_BASE_URL = 'https://www.cheapshark.com/api/1.0'
+const GAMES_API_BASE_URL = 'https://www.cheapshark.com/api/1.0'
 
-const API_OPTION = {
+const GAMES_API_OPTION = {
   method: "GET",
   headers: {
     accept: "application/json",
   }
 }
 
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
@@ -32,16 +33,18 @@ const Home = () => {
     [searchTerm]
   )
 
+
+
   const fetchGames = async (query) => {
     setIsLoading(true);
     setGamesErrorMessage('');
 
     try {
       const endpoint = query ?
-        `${API_BASE_URL}/deals?title=${encodeURIComponent(query)}&pageSize=100`
-        : `${API_BASE_URL}/deals?pageSize=100`;
+        `${GAMES_API_BASE_URL}/deals?title=${encodeURIComponent(query)}&pageSize=100`
+        : `${GAMES_API_BASE_URL}/deals?pageSize=100`;
 
-      const response = await fetch(endpoint, API_OPTION);
+      const response = await fetch(endpoint, GAMES_API_OPTION);
 
       if (!response.ok) {
         throw new Error('Error fetching game!');
@@ -85,9 +88,11 @@ const Home = () => {
     fetchGames(debouncedSearchTerm)
   }, [debouncedSearchTerm])
 
+
+
   const fetchUser = async () => {
     try {
-      const response = await fetch('/user');
+      const response = await fetch(`${API_URL}/user`);
 
       if(!response.ok){
         throw new Error('Response is not okay');
@@ -112,6 +117,8 @@ const Home = () => {
   useEffect( () => {
     fetchUser()
   }, [])
+
+
 
   const {width, height} = useScreenSize();
 
