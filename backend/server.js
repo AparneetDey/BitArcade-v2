@@ -18,16 +18,51 @@ app.use(cors({
     credentials: true
 }));
 
-// 🔽 Add this right after the CORS setup
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     next();
 });
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
+const users = [{username: 'Aparneet', email: 'abc@gmail.com', password: '12345'}];
+
+let currentUser = {};
 
 app.get('/user', (req, res) => {
-    res.json({ 'data': { 'username': 'Aparneet', 'password': '12345', 'email': 'xyz@gmail.com' } });
+    res.json({ 'data': currentUser });
 });
+
+app.post('/login', (req,res) => {
+    const {email, password} = req.body;
+
+    const user = users.find(user => user.email === email);
+
+    if (user && user.password === password) {
+        currentUser = user;
+        res.json(currentUser);
+    } else {
+        currentUser = {};
+        res.json(currentUser)
+    }
+})
+
+app.post('/signup', (req,res) => {
+    const {username, email, password} = req.body;
+
+    const user = users.find(user => user.email === email);
+
+    if (!user) {
+        currentUser = {username, email, password};
+        users.push(user);
+        res.json(currentUser);
+    } else {
+        currentUser = {};
+        res.json(currentUser)
+    }
+})
 
 app.listen(port, () => console.log(`Listening on port: http://localhost:${port}/users`));
 

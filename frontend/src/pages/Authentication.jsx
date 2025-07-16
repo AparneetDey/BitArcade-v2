@@ -1,14 +1,53 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, NavLink, useParams } from 'react-router';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Authentication = () => {
 	const { mode } = useParams();
 	const Navigate = useNavigate();
 
 
 	const [action, setAction] = useState(mode === 'signup' ? false : true); /* false - Signup | true - Login */
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [username, setUsername] = useState('');
 
-	console.log(action)
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		const endpoint = action ? 'login' : 'signup';
+		const payload = action ?
+			{ email: email, password: password }
+			: { username: username, email: email, password: password };
+
+		try {
+			const response = await fetch(`${API_URL}/${endpoint}`, {
+				method: 'POST',
+				headers: {
+					'content-type': 'application/json'
+				},
+				credentials: 'include',
+				body: JSON.stringify(payload),
+			});
+
+			if(!response.ok){
+				const text = response.text()
+				console.log(text);
+				return
+			}
+
+			const data = await response.json();
+
+			if(data) { 
+				console.log('navigate');
+				Navigate('/');
+			}
+
+		} catch (error) {
+			console.log(`Auth failed: ${error}`);
+		}
+	}
 
 	useEffect(() => {
 		setAction(mode === 'signup' ? false : true);
@@ -33,13 +72,16 @@ const Authentication = () => {
 					<h2>{action ? "Welcome back, let's get you back in the game." : 'Join the arcade — explore, discover, and track your favorite games.'}</h2>
 				</div>
 				<div className='input-fields'>
-					<div className='all-inputs'>
+					<form onSubmit={handleSubmit} className='all-inputs'>
 						{action ? '' :
 							<div className='input'> {/* Username */}
 								<p>Username</p>
 								<input
 									className='outline-none w-full border-[2px] border-[#000000]/75 rounded-full pl-3 '
 									type="text"
+									value={username}
+									onChange={(e) => setUsername(e.target.value)}
+									required
 								/>
 							</div>
 						}
@@ -48,6 +90,9 @@ const Authentication = () => {
 							<input
 								className='outline-none w-full border-[2px] border-[#000000]/75 rounded-full pl-3 '
 								type="mail"
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+								required
 							/>
 						</div>
 						<div className='input'> {/* Password */}
@@ -55,16 +100,20 @@ const Authentication = () => {
 							<input
 								className='outline-none w-full border-[2px] border-[#000000]/75 rounded-full pl-3 '
 								type="password"
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+								required
 							/>
 						</div>
-					</div>
+						<div className='mt-4 flex justify-center items-center '>
+							<button type='submit' className='btn'>
+								{action ? 'Login' : 'Signup'}
+							</button>
+						</div>
+					</form>
 				</div>
-				<div className='mt-4 flex justify-center items-center '>
-					<div className='btn'>
-						{action ? 'Login' : 'Signup'}
-					</div>
-				</div>
-				<p className='bottom'>Already a part of the Arcade? <span onClick={()=>toggleAuth(!action)} className='text-[blue] font-[500] cursor-pointer'>{action ? 'Signup' : 'Login'}</span></p>
+
+				<p className='bottom'>Already a part of the Arcade? <span onClick={() => toggleAuth(!action)} className='text-[blue] font-[500] cursor-pointer'>{action ? 'Signup' : 'Login'}</span></p>
 			</section>
 		</div>
 	)
