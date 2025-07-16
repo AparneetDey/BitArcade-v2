@@ -24,6 +24,7 @@ const Home = () => {
   const [gamesErrorMessage, setGamesErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [userData, setUserData] = useState({})
 
   useDebounce(() =>
     setDebouncedSearchTerm(searchTerm),
@@ -65,8 +66,6 @@ const Home = () => {
         }
       });
 
-      console.log(uniqueGames);
-
       if (uniqueGames.length === 0) {
         setGamesErrorMessage('No Games Found');
         setGamesList(uniqueGames);
@@ -86,12 +85,40 @@ const Home = () => {
     fetchGames(debouncedSearchTerm)
   }, [debouncedSearchTerm])
 
+  const fetchUser = async () => {
+    try {
+      const response = await fetch('/user');
+
+      if(!response.ok){
+        throw new Error('Response is not okay');
+      }
+
+      const data = await response.json();
+
+      console.log(data);
+
+      if(data.data.length === 0){
+        setUserData([]);
+        return;
+      }
+
+      setUserData(data.data);
+
+    } catch (error) {
+      console.log(`Error fetching user from backend: ${error}`)
+    }
+  }
+  
+  useEffect( () => {
+    fetchUser()
+  }, [])
+
   const {width, height} = useScreenSize();
 
   return (
     <main>
       <div className={width <= 480 ? 'flex flex-col gap-3' : ''}>
-        <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData} />
 
         {width > 480 ? ''
         : <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
