@@ -39,7 +39,7 @@
 
 @layer components {
     .search {
-        @apply w-full max-w-[800px] bg-[#1A162A] border-[2px] border-[#000000]/35 h-11 py-2 xs:h-8 rounded-full px-2 xs:py-0.5;
+        @apply w-full max-w-[600px] bg-[#1A162A] border-[2px] border-[#000000]/35 h-11 py-2 xs:h-9 rounded-full px-2 xs:py-1;
 
         & div {
             @apply relative flex items-center;
@@ -50,7 +50,7 @@
         }
 
         & input {
-            @apply w-full text-[12px] pl-8 text-white placeholder:text-white py-1 bg-transparent outline-hidden truncate;
+            @apply w-full text-[12px] pl-8 text-white placeholder:text-white/75 py-1 bg-transparent outline-hidden truncate;
         }
     }
 
@@ -145,6 +145,14 @@
 
         .bottom {
             @apply text-center text-[14px] mt-4;
+        }
+    }
+
+    .profile-icon {
+        @apply w-[35px] h-[35px] flex justify-center items-end rounded-full border-[2px] border-[#ffffff] overflow-hidden cursor-pointer;
+
+        img {
+            @apply w-[75%] h-[75%] object-cover;
         }
     }
 }

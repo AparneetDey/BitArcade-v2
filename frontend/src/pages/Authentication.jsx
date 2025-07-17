@@ -40,7 +40,6 @@ const Authentication = () => {
 			const data = await response.json();
 
 			if(data) { 
-				console.log('navigate');
 				Navigate('/');
 			}
 
@@ -54,7 +53,6 @@ const Authentication = () => {
 	}, [mode, Navigate])
 
 	const toggleAuth = (q) => {
-		console.log(q)
 		const newMode = q ? 'login' : 'signup';
 		Navigate(`/authentication/${newMode}`);
 	}

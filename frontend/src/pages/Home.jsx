@@ -105,6 +105,8 @@ const Home = () => {
 
       const data = await response.json();
 
+      console.log(data.data)
+
       if(data.data.length === 0){
         setUserData([]);
         return;

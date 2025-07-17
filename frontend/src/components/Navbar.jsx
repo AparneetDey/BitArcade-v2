@@ -13,7 +13,11 @@ const Navbar = ({searchTerm, setSearchTerm, userData}) => {
 			{width <= 480 ? '' 
 			: <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 			}
-			{userData.username ? (<p>{userData.username}</p>): 
+			{userData.username ? 
+			(<NavLink className={'profile-icon'}>
+				<img src="/profile-icon.png" alt="Profile Icon" />
+			</NavLink>)
+			: 
 			<NavLink to={'/authentication/signup'}>
 				<Button content={"Join Now"} />
 			</NavLink>
