@@ -155,4 +155,12 @@
             @apply w-[75%] h-[75%] object-cover;
         }
     }
+
+    .profile-pic {
+        @apply min-w-[180px] min-h-[180px] max-w-[180px] max-h-[180px] flex justify-center items-end rounded-full border-[2px] border-[#ffffff] overflow-hidden cursor-pointer;
+
+        img {
+            @apply w-[75%] h-[75%] object-cover;
+        }
+    }
 }
