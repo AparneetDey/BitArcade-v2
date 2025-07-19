@@ -1,8 +1,11 @@
 import React from 'react'
+import Navbar from '../components/Navbar'
 
-const Profile = () => {
+const Profile = ({searchTerm, setSearchTerm, userData}) => {
   return (
-    <div>Profile</div>
+    <div>
+      <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData} searchBar={false} />
+    </div>
   )
 }
 

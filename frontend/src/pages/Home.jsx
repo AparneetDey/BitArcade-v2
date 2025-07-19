@@ -17,28 +17,17 @@ const GAMES_API_OPTION = {
   }
 }
 
-const API_URL = import.meta.env.VITE_API_URL;
-
-const API_OPTION = {
-  method: 'GET',
-  credentials: 'include'
-}
-
-const Home = () => {
+const Home = ({searchTerm, setSearchTerm, userData}) => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
   const [gamesList, setGamesList] = useState([]);
   const [gamesErrorMessage, setGamesErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [userData, setUserData] = useState({})
 
   useDebounce(() =>
     setDebouncedSearchTerm(searchTerm),
     700,
     [searchTerm]
   )
-
-
 
   const fetchGames = async (query) => {
     setIsLoading(true);
@@ -92,38 +81,6 @@ const Home = () => {
   useEffect(() => {
     fetchGames(debouncedSearchTerm)
   }, [debouncedSearchTerm])
-
-
-
-  const fetchUser = async () => {
-    try {
-      const response = await fetch(`${API_URL}/user`, API_OPTION);
-
-      if(!response.ok){
-        throw new Error('Response is not okay');
-      }
-
-      const data = await response.json();
-
-      console.log(data.data)
-
-      if(data.data.length === 0){
-        setUserData([]);
-        return;
-      }
-
-      setUserData(data.data);
-
-    } catch (error) {
-      console.log(`Error fetching user from backend: ${error}`)
-    }
-  }
-  
-  useEffect( () => {
-    fetchUser()
-  }, [])
-
-
 
   const {width, height} = useScreenSize();
 

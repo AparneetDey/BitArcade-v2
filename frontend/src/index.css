@@ -149,7 +149,7 @@
     }
 
     .profile-icon {
-        @apply w-[35px] h-[35px] flex justify-center items-end rounded-full border-[2px] border-[#ffffff] overflow-hidden cursor-pointer;
+        @apply min-w-[38px] min-h-[38px] max-w-[38px] max-h-[38px] flex justify-center items-end rounded-full border-[2px] border-[#ffffff] overflow-hidden cursor-pointer;
 
         img {
             @apply w-[75%] h-[75%] object-cover;
