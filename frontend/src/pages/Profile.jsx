@@ -6,7 +6,7 @@ const Profile = ({ searchTerm, setSearchTerm, userData }) => {
     <main>
       <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData} searchBar={false} />
 
-      <section className=' px-4 md:px-10'>
+      <section className='px-4 md:px-10'>
         <div className='flex justify-center items-center md:justify-start md:items-start '>
           <div className='flex flex-col gap-4 justify-center items-center'>
             <div className='profile-pic'>

@@ -41,8 +41,11 @@ app.use(session({
 
 const users = [{ username: 'Aparneet', email: 'abc@gmail.com', password: '12345' }];
 
+app.get('/', (req,res) => {
+    res.json({'users': users});
+})
+
 app.get('/user', (req, res) => {
-    console.log(req.session.user)
     if(req.session.user){
         res.json({ 'data': req.session.user });
     } else {
