@@ -18,7 +18,7 @@ const Navbar = ({searchTerm, setSearchTerm, userData, searchBar=true}) => {
 				<img src="/profile-icon.png" alt="Profile Icon" />
 			</NavLink>)
 			: 
-			<NavLink to={'/authentication/signup'}>
+			<NavLink to={'/authentication/login'}>
 				<Button content={"Join Now"} />
 			</NavLink>
 			}

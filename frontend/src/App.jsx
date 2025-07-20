@@ -8,18 +8,21 @@ import {
 import Home from './pages/Home'
 import Authentication from './pages/Authentication';
 import Profile from './pages/Profile';
+import ProtectedRoute from './components/ProtectedRoute';
+import Spinner from './components/Spinner';
 
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const API_OPTION = {
-  method: 'GET',
-  credentials: 'include'
+	method: 'GET',
+	credentials: 'include'
 }
 
 const App = () => {
+	const [isSignedIn, setIsSignedIn] = useState(null);
 	const [searchTerm, setSearchTerm] = useState('');
-	const [userData, setUserData] = useState({})
+	const [userData, setUserData] = useState([])
 
 	const fetchUser = async () => {
 		try {
@@ -39,14 +42,15 @@ const App = () => {
 			}
 
 			setUserData(data.data);
-
+			setIsSignedIn(data.isSignedIn);
 		} catch (error) {
 			console.log(`Error fetching user from backend: ${error}`)
+			setIsSignedIn(false);
 		}
 	}
 
 	useEffect(() => {
-		fetchUser()
+		fetchUser();
 	}, [])
 
 	const router = createBrowserRouter([
@@ -56,15 +60,20 @@ const App = () => {
 		},
 		{
 			path: "/authentication/:mode",
-			element: <Authentication />
+			element: <ProtectedRoute isSignedIn={isSignedIn} page={'auth'} >
+				<Authentication setIsSignedIn={setIsSignedIn} />
+			</ProtectedRoute>
 		},
 		{
 			path: "/profile",
-			element: <Profile searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData} />
+			element: ( isSignedIn === null ? <Spinner /> :
+				<ProtectedRoute isSignedIn={isSignedIn} page={'profile'} >
+					<Profile searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData} />
+				</ProtectedRoute>)
 		}
 	]);
 
-	return (<RouterProvider router={router} />)
+return (<RouterProvider router={router} />)
 }
 
 export default App

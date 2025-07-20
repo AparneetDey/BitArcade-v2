@@ -31,16 +31,19 @@ const Authentication = () => {
 				body: JSON.stringify(payload),
 			});
 
-			if(!response.ok){
-				const text = response.text()
-				console.log(text);
-				return
+			if (!response.ok) {
+				throw new Error('Response is not okay')
 			}
 
 			const data = await response.json();
 
-			if(data) { 
+			if (data.message === 'notRegistered') {
+				console.log('Not Registered')
+			} else if (data.message === 'registered') {
+				console.log('Registered')
+			} else {
 				Navigate('/');
+				window.location.reload();
 			}
 
 		} catch (error) {
@@ -70,6 +73,7 @@ const Authentication = () => {
 					<h2>{action ? "Welcome back, let's get you back in the game." : 'Join the arcade — explore, discover, and track your favorite games.'}</h2>
 				</div>
 				<div className='input-fields'>
+					
 					<form onSubmit={handleSubmit} className='all-inputs'>
 						{action ? '' :
 							<div className='input'> {/* Username */}

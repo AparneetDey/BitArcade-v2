@@ -96,7 +96,7 @@ const Home = ({searchTerm, setSearchTerm, userData}) => {
         <section className='hero'>
           <p className='main-liner'>From retro gems to modern epics – explore the world of games in one place.</p>
           <p className='sub-liner'>Detailed insights, game art, trailers, and more – all at your fingertips.</p>
-          {userData.username ? '' : <NavLink to={'/authentication/signup'}><Button content={"Join For Free"} /></NavLink>}
+          {userData.username ? '' : <NavLink to={'/authentication/login'}><Button content={"Join For Free"} /></NavLink>}
           <img src="./hero-poster.png" alt="Hero Poster" />
         </section> :
         ''
