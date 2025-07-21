@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, NavLink, useParams } from 'react-router';
+import Spinner from '../components/Spinner.jsx'
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -10,11 +11,13 @@ const Authentication = () => {
 
 	const [action, setAction] = useState(mode === 'signup' ? false : true); /* false - Signup | true - Login */
 	const [email, setEmail] = useState('');
+	const [isLoading, setIsLoading] = useState(false)
 	const [password, setPassword] = useState('');
 	const [username, setUsername] = useState('');
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setIsLoading(true)
 
 		const endpoint = action ? 'login' : 'signup';
 		const payload = action ?
@@ -42,12 +45,18 @@ const Authentication = () => {
 			} else if (data.message === 'registered') {
 				console.log('Registered')
 			} else {
-				Navigate('/');
-				window.location.reload();
+				setInterval(()=> {
+					Navigate('/');
+					window.location.reload();
+				}, 2000);
 			}
 
 		} catch (error) {
 			console.log(`Auth failed: ${error}`);
+		} finally {
+			setInterval(()=> {
+				setIsLoading(false);
+			}, 2000);
 		}
 	}
 
@@ -109,7 +118,7 @@ const Authentication = () => {
 						</div>
 						<div className='mt-4 flex justify-center items-center '>
 							<button type='submit' className='btn'>
-								{action ? 'Login' : 'Signup'}
+								{isLoading ? (<Spinner />) :  action ? 'Login' : 'Signup'}
 							</button>
 						</div>
 					</form>
