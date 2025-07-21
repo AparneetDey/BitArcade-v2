@@ -50,7 +50,7 @@ app.get('/user', (req, res) => {
 	if (req.session.user) {
 		res.json({ isSignedIn: true, 'data': req.session.user });
 	} else {
-		res.json({ isSignedIn: false, 'data': req.session.user });
+		res.json({ isSignedIn: false, 'data': req.session.user || 'Empty' });
 	}
 });
 
