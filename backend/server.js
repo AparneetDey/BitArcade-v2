@@ -43,14 +43,14 @@ app.use(session({
 }))
 
 app.get('/', (req, res) => {
-	res.json({ 'users': users, 'session': req.session.user });
+	res.json({ 'users': users });
 })
 
 app.get('/user', (req, res) => {
 	if (req.session.user) {
-		res.json({ isSignedIn: true, 'data': req.session.user });
+		res.json({ isSignedIn: true, 'data': req.session.user, 'session': req.session.user });
 	} else {
-		res.json({ isSignedIn: false })
+		res.json({ isSignedIn: false, 'session': req.session.user })
 	}
 });
 
