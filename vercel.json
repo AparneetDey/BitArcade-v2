@@ -5,12 +5,12 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/frontend/index.html"
+      "destination": "/index.html"
     }
   ],
   "headers": [
     {
-      "source": "/frontend/assets/(.*)",
+      "source": "/assets/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -19,4 +19,4 @@
       ]
     }
   ]
-} 
+}
