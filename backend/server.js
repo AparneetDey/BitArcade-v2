@@ -43,7 +43,7 @@ app.use(session({
 }))
 
 app.get('/', (req, res) => {
-	res.json({ 'users': users });
+	res.json({ 'users': users, 'session': req.session.user });
 })
 
 app.get('/user', (req, res) => {
