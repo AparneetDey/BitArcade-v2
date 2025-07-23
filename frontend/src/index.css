@@ -65,10 +65,9 @@
             @apply text-[#8e8e8e] text-center text-[14px] md:text-3xl tracking-tighter mb-5 md:mb-8;
         }
 
-        div {
-            @apply max-w-[814px] max-h-[652px] w-full h-full;
+        .poster {
+            @apply max-w-[814px] max-h-[652px] w-full h-full bg-[red] rounded-xl;
         }
-
 
         img {
             @apply w-full h-full;
