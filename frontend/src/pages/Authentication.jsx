@@ -45,7 +45,7 @@ const Authentication = () => {
 			} else if (data.message === 'registered') {
 				console.log('Registered')
 			} else {
-				setInterval(()=> {
+				setInterval(() => {
 					Navigate('/');
 					window.location.reload();
 				}, 500);
@@ -54,7 +54,7 @@ const Authentication = () => {
 		} catch (error) {
 			console.log(`Auth failed: ${error}`);
 		} finally {
-			setInterval(()=> {
+			setInterval(() => {
 				setIsLoading(false);
 			}, 1000);
 		}
@@ -74,15 +74,17 @@ const Authentication = () => {
 	return (
 		<div className='authentication'>
 			<section>
-				<img src={bgImage} alt={action ? 'Login BG' : 'Signup BG'} />
+				<div className='auth-poster'>
+					<img src={bgImage} alt={action ? 'Login BG' : 'Signup BG'} />
+				</div>
 				<NavLink to={'/'}>
-					<img className='w-[15px] h-[15x] object-cover absolute top-[10px] left-[10px] cursor-pointer' src="/cross.svg" alt="Cross Icon" />
+					<img className='cross-icon' src="/cross.svg" alt="Cross Icon" />
 				</NavLink>
 				<div className={`heading ${action ? 'top-[35%]' : 'top-[25%]'}`}>
 					<h2>{action ? "Welcome back, let's get you back in the game." : 'Join the arcade — explore, discover, and track your favorite games.'}</h2>
 				</div>
 				<div className='input-fields'>
-					
+
 					<form onSubmit={handleSubmit} className='all-inputs'>
 						{action ? '' :
 							<div className='input'> {/* Username */}
@@ -118,7 +120,7 @@ const Authentication = () => {
 						</div>
 						<div className='mt-4 flex justify-center items-center '>
 							<button type='submit' className='btn'>
-								{isLoading ? (<Spinner />) :  action ? 'Login' : 'Signup'}
+								{isLoading ? (<Spinner />) : action ? 'Login' : 'Signup'}
 							</button>
 						</div>
 					</form>

@@ -123,12 +123,20 @@
             @apply max-w-[824px] w-full h-fit bg-white rounded-2xl relative pb-4
         }
 
-        img {
-            @apply w-full rounded-t-[14px] object-cover;
+        .auth-poster {
+            @apply w-full aspect-[5/2] rounded-t-[14px] object-cover;
+        }
+
+        .auth-poster img {
+            @apply w-full h-full rounded-t-[14px];
         }
 
         h2{
             @apply w-[75%] text-[#000000] lg:text-[#ffffff] text-center tracking-tight;
+        }
+
+        .cross-icon {
+            @apply w-[15px] h-[15x] object-cover absolute top-[10px] left-[10px] cursor-pointer;
         }
 
         .heading {
