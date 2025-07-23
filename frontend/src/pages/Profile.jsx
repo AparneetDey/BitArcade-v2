@@ -24,7 +24,7 @@ const Profile = ({ searchTerm, setSearchTerm, userData }) => {
         body: JSON.stringify({ action: actionType }), // <-- "logout" or "delete"
       });
 
-      const data = await res;
+      const data = await res.json();
       
       console.log(data);
     } catch (error) {
