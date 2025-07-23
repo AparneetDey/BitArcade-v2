@@ -12,9 +12,6 @@ const Profile = ({ searchTerm, setSearchTerm, userData }) => {
 
   const handleLogOut = async (actionType) => {
     try {
-      navigate('/');
-      window.location.reload()
-
       await fetch(`${API_URL}/logout`, {
         method: 'POST',
         credentials: 'include',
@@ -23,6 +20,9 @@ const Profile = ({ searchTerm, setSearchTerm, userData }) => {
         },
         body: JSON.stringify({ action: 'logout' }), // <-- "logout" or "delete"
       });
+
+      navigate('/');
+      window.location.reload()
     } catch (error) {
       console.log(`Error in Logging out: ${error}`);
     }
