@@ -94,9 +94,9 @@ app.post('/logout', (req, res) => {
 				res.status(500).send('Log out Fail');
 			}
 			res.clearCookie('BitArcade.sid', {
-				secure: true,
-				sameSite: 'none',
+				secure: process.env.NODE_ENV === 'production', // true if using HTTPS
 				httpOnly: true,
+				sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
 			});
 			res.status(200).json({ message: 'Logged out' });
 		})
@@ -111,9 +111,9 @@ app.post('/logout', (req, res) => {
 				res.status(500).send('Log out Fail');
 			}
 			res.clearCookie('BitArcade.sid', {
-				secure: true,
-				sameSite: 'none',
+				secure: process.env.NODE_ENV === 'production', // true if using HTTPS
 				httpOnly: true,
+				sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
 			});
 			res.status(200).json({ message: 'Account Deleted' });
 		})
