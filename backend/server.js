@@ -3,6 +3,7 @@ const cors = require("cors")
 const app = express();
 const session = require("express-session")
 const port = 3000;
+require('dotenv').config();
 
 let users = [{ username: 'Aparneet', email: 'abc@gmail.com', password: '12345' }];
 
@@ -28,13 +29,13 @@ app.set('trust proxy', 1);
 
 app.use(session({
 	name: 'BitArcade.sid',
-	secret: "Happygamer008!",
+	secret: process.env.NODE_SECRET_KEY,
 	resave: false,
 	saveUninitialized: false,
 	cookie: {
-		secure: true, // true if using HTTPS
+		secure: process.env.NODE_ENV === 'Production', // true if using HTTPS
 		httpOnly: true,
-		sameSite: 'none',
+		sameSite: process.env.NODE_ENV === 'Production' ? 'none' : 'lax',
 		maxAge: 1000 * 60 * 60 * 24 // 1 day
 	}
 }))
