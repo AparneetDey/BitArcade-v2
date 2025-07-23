@@ -24,7 +24,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.set('trust proxy', 1);
-console.log(process.env.NODE_ENV)
 
 app.use(session({
 	name: 'BitArcade.sid',

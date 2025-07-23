@@ -17,7 +17,7 @@ const GAMES_API_OPTION = {
   }
 }
 
-const Home = ({searchTerm, setSearchTerm, userData}) => {
+const Home = ({ searchTerm, setSearchTerm, userData }) => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
   const [gamesList, setGamesList] = useState([]);
   const [gamesErrorMessage, setGamesErrorMessage] = useState('');
@@ -82,7 +82,7 @@ const Home = ({searchTerm, setSearchTerm, userData}) => {
     fetchGames(debouncedSearchTerm)
   }, [debouncedSearchTerm])
 
-  const {width, height} = useScreenSize();
+  const { width, height } = useScreenSize();
 
   return (
     <main>
@@ -90,14 +90,16 @@ const Home = ({searchTerm, setSearchTerm, userData}) => {
         <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData} />
 
         {width > 480 ? ''
-        : <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
+          : <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
       </div>
       {debouncedSearchTerm === '' ?
         <section className='hero'>
           <p className='main-liner'>From retro gems to modern epics – explore the world of games in one place.</p>
           <p className='sub-liner'>Detailed insights, game art, trailers, and more – all at your fingertips.</p>
           {userData.username ? '' : <NavLink to={'/authentication/login'}><Button content={"Join For Free"} /></NavLink>}
-          <img src="./hero-poster.png" alt="Hero Poster" />
+          <div>
+            <img src="./hero-poster.png" alt="Hero Poster" />
+          </div>
         </section> :
         ''
       }
