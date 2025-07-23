@@ -21,7 +21,7 @@ const Profile = ({ searchTerm, setSearchTerm, userData }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ action: actionType }), // <-- "logout" or "delete"
+        body: JSON.stringify({ action: 'logout' }), // <-- "logout" or "delete"
       });
 
       if(!res.ok){

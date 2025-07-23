@@ -107,7 +107,6 @@ app.post('/logout', (req, res) => {
 			res.status(200).json({ message: 'Account Deleted' });
 		})
 	}
-
 })
 
 app.listen(port, () => console.log(`Listening on port: http://localhost:${port}/`));
