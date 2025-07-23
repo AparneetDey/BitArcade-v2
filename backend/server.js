@@ -21,11 +21,6 @@ app.use(cors({
 	credentials: true
 }));
 
-app.use((req, res, next) => {
-	res.setHeader('Access-Control-Allow-Credentials', 'true');
-	next();
-});
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -64,7 +59,7 @@ app.post('/login', (req, res) => {
 		res.json([req.session.user]);
 	} else {
 		req.session.user = {};
-		res.json({'message': 'notRegistered'});
+		res.json({ 'message': 'notRegistered' });
 	}
 })
 
@@ -82,7 +77,7 @@ app.post('/signup', (req, res) => {
 		res.json([req.session.user]);
 	} else {
 		req.session.user = {};
-		res.json({'message': 'registered'});
+		res.json({ 'message': 'registered' });
 	}
 })
 
@@ -95,9 +90,14 @@ app.post('/logout', (req, res) => {
 				console.log('Error signing out');
 				res.status(500).send('Log out Fail');
 			}
-			res.clearCookie('BitArcade.sid');
+			res.clearCookie('BitArcade.sid', {
+				secure: true,
+				sameSite: 'none',
+				httpOnly: true,
+			});
+			res.status(200).json({ message: 'Logged out' });
 		})
-	} else if(action === 'delete') {
+	} else if (action === 'delete') {
 		const currentUser = req.session.user;
 
 		users = users.filter(user => user.email !== currentUser.email);
@@ -107,7 +107,12 @@ app.post('/logout', (req, res) => {
 				console.log('Error signing out');
 				res.status(500).send('Log out Fail');
 			}
-			res.clearCookie('BitArcade.sid');
+			res.clearCookie('BitArcade.sid', {
+				secure: true,
+				sameSite: 'none',
+				httpOnly: true,
+			});
+			res.status(200).json({ message: 'Account Deleted' });
 		})
 	}
 
