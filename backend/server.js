@@ -39,11 +39,6 @@ app.use(session({
 	}
 }))
 
-app.get('/check-session', (req, res) => {
-	console.log('Session object:', req.session);
-	res.json({ session: req.session });
-});
-
 app.get('/', (req, res) => {
 	res.json({ 'users': users });
 })
