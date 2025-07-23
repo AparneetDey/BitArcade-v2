@@ -34,7 +34,7 @@ const App = () => {
 
 			const data = await response.json();
 
-			console.log(data)
+			console.log(data.data)
 
 			if (data.data.length === 0) {
 				setUserData([]);

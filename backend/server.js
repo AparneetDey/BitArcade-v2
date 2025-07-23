@@ -26,6 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.set('trust proxy', 1);
+console.log(process.env.NODE_ENV)
 
 app.use(session({
 	name: 'BitArcade.sid',
@@ -45,6 +46,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/user', (req, res) => {
+	console.log(req.session.user);
 	if (req.session.user) {
 		res.json({ isSignedIn: true, 'data': req.session.user });
 	} else {
@@ -59,7 +61,6 @@ app.post('/login', (req, res) => {
 
 	if (user && user.password === password) {
 		req.session.user = user;
-		console.log(req.session.user);
 		res.json([req.session.user]);
 	} else {
 		req.session.user = {};
@@ -69,15 +70,12 @@ app.post('/login', (req, res) => {
 
 app.post('/signup', (req, res) => {
 	const { username, email, password } = req.body;
-	console.log(email);
 
 	const user = users.find(user => user.email === email);
-	console.log(user);
 
 	if (!user) {
 		req.session.user = { username, email, password };
 		users.push(req.session.user);
-		console.log(users);
 		res.json([req.session.user]);
 	} else {
 		req.session.user = {};
@@ -111,10 +109,6 @@ app.post('/logout', (req, res) => {
 			res.status(200).json({ message: 'Account Deleted' });
 		})
 	}
-
-})
-
-app.post('/deleteacc', (req, res) => {
 
 })
 
