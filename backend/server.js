@@ -59,6 +59,7 @@ app.post('/login', (req, res) => {
 
 	if (user && user.password === password) {
 		req.session.user = user;
+		console.log(req.session.user);
 		res.json([req.session.user]);
 	} else {
 		req.session.user = {};
@@ -93,11 +94,7 @@ app.post('/logout', (req, res) => {
 				console.log('Error signing out');
 				res.status(500).send('Log out Fail');
 			}
-			res.clearCookie('BitArcade.sid', {
-				secure: true,
-				sameSite: 'none',
-				httpOnly: true,
-			});
+			res.clearCookie('BitArcade.sid');
 			res.status(200).json({ message: 'Logged out' });
 		})
 	} else if (action === 'delete') {
@@ -110,11 +107,7 @@ app.post('/logout', (req, res) => {
 				console.log('Error signing out');
 				res.status(500).send('Log out Fail');
 			}
-			res.clearCookie('BitArcade.sid', {
-				secure: true,
-				sameSite: 'none',
-				httpOnly: true,
-			});
+			res.clearCookie('BitArcade.sid');
 			res.status(200).json({ message: 'Account Deleted' });
 		})
 	}
