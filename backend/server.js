@@ -7,18 +7,10 @@ require('dotenv').config();
 
 let users = [{ username: 'Aparneet', email: 'abc@gmail.com', password: '12345' }];
 
+const origin = process.env.NODE_ENV === 'production' ? 'https://bit-arcade-v2.vercel.app' : 'http://localhost:5173';
+
 app.use(cors({
-	origin: (origin, callback) => {
-		const allowedOrigins = [
-			'http://localhost:5173',
-			'https://bit-arcade-v2.vercel.app'
-		];
-		if (!origin || allowedOrigins.includes(origin)) {
-			callback(null, true);
-		} else {
-			callback(new Error('Not allowed by CORS'));
-		}
-	},
+	origin: origin,
 	credentials: true
 }));
 
