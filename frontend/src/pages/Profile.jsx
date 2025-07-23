@@ -27,6 +27,10 @@ const Profile = ({ searchTerm, setSearchTerm, userData }) => {
       if(!res.ok){
         throw new Error('Response is not okay');
       }
+
+      const data = await res.json();
+
+      console.log(data.message);
     } catch (error) {
       console.log(`Error in Logging out: ${error}`);
     }
