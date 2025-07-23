@@ -48,7 +48,7 @@ const Authentication = () => {
 				setInterval(()=> {
 					Navigate('/');
 					window.location.reload();
-				}, 1000);
+				}, 500);
 			}
 
 		} catch (error) {
