@@ -24,9 +24,9 @@ const Profile = ({ searchTerm, setSearchTerm, userData }) => {
         body: JSON.stringify({ action: actionType }), // <-- "logout" or "delete"
       });
 
-      const data = await res.json();
-      
-      console.log(data);
+      if(!res.ok){
+        throw new Error('Response is not okay');
+      }
     } catch (error) {
       console.log(`Error in Logging out: ${error}`);
     }
