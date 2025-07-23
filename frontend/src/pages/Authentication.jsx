@@ -48,7 +48,7 @@ const Authentication = () => {
 				setInterval(()=> {
 					Navigate('/');
 					window.location.reload();
-				}, 2000);
+				}, 500);
 			}
 
 		} catch (error) {
@@ -56,7 +56,7 @@ const Authentication = () => {
 		} finally {
 			setInterval(()=> {
 				setIsLoading(false);
-			}, 2000);
+			}, 500);
 		}
 	}
 
