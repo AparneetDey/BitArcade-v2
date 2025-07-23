@@ -15,7 +15,7 @@ const Profile = ({ searchTerm, setSearchTerm, userData }) => {
       navigate('/');
       window.location.reload()
 
-      const res = await fetch(`${API_URL}/logout`, {
+      await fetch(`${API_URL}/logout`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -23,14 +23,6 @@ const Profile = ({ searchTerm, setSearchTerm, userData }) => {
         },
         body: JSON.stringify({ action: 'logout' }), // <-- "logout" or "delete"
       });
-
-      if(!res.ok){
-        throw new Error('Response is not okay');
-      }
-
-      const data = await res.json();
-
-      console.log(data.message);
     } catch (error) {
       console.log(`Error in Logging out: ${error}`);
     }
