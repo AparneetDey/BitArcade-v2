@@ -12,8 +12,8 @@ const Profile = ({ searchTerm, setSearchTerm, userData }) => {
 
   const handleLogOut = async (actionType) => {
     try {
-      // navigate('/');
-      // window.location.reload()
+      navigate('/');
+      window.location.reload()
 
       const res = await fetch(`${API_URL}/logout`, {
         method: 'POST',
