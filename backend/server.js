@@ -24,6 +24,8 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.set('trust proxy', 1);
+
 app.use(session({
 	name: 'BitArcade.sid',
 	secret: "Happygamer008!",
@@ -36,6 +38,11 @@ app.use(session({
 		maxAge: 1000 * 60 * 60 * 24 // 1 day
 	}
 }))
+
+app.get('/check-session', (req, res) => {
+	console.log('Session object:', req.session);
+	res.json({ session: req.session });
+});
 
 app.get('/', (req, res) => {
 	res.json({ 'users': users });
