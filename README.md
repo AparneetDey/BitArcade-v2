@@ -1,12 +1,42 @@
-# React + Vite
+# BitArcade v2
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**BitArcade v2** is a complete rework of my previous website, now featuring a modernized design and a robust tech stack using React for the frontend and Node.js for the backend. This version brings a significantly improved user experience, a more visually appealing interface, and enhanced performance.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **User Authentication**
+  - Sign up and log in with email, password, and username
+  - Secure session management (cookies)
+  - Clear error handling and feedback
 
-## Expanding the ESLint configuration
+- **Game Discovery**
+  - Browse a curated list of popular games
+  - Search for games by title with real-time debouncing
+  - View detailed game information, including art and trailers
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **User Profile**
+  - View and manage your profile (username, email)
+  - Log out or delete your account easily
+
+- **Responsive Design**
+  - Fully responsive layout for mobile and desktop
+  - Modern, visually appealing UI
+
+- **Navigation**
+  - Intuitive navigation bar for easy access to all main features
+  - Quick links to authentication and home pages
+
+- **Performance**
+  - Fast loading and smooth transitions using React and Vite
+  - Loading spinners and error messages for better user feedback
+
+## 🛠️ Tech Stack
+
+- **Frontend:** React, Vite, modern CSS
+- **Backend:** Node.js (Express)
+- **API:** Integration with external game data provider (e.g., CheapShark API)
+- **Other:** ESLint for code quality, environment variables for configuration
+
+## ℹ️ About This Project
+
+This website is a rework of my previous BitArcade project. The design has been completely overhauled for a better user experience, and the frontend is now built with React, while the backend uses a Node.js server. The result is a faster, more interactive, and more maintainable application.
