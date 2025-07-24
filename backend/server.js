@@ -56,12 +56,15 @@ app.post('/login', (req, res) => {
 
 	const user = users.find(user => user.email === email);
 
-	if (user && user.password === password) {
-		req.session.user = user;
-		res.json([req.session.user]);
+	if (user) {
+		if (user.password === password){
+			req.session.user = user;
+			res.json({'errorMessage': ''});
+		} else {
+			res.json({'errorMessage': 'Incorrect Password!'})
+		}
 	} else {
-		req.session.user = {};
-		res.json({ 'message': 'notRegistered' });
+		res.json({ 'errorMessage': 'User not found!'});
 	}
 })
 
@@ -73,10 +76,9 @@ app.post('/signup', (req, res) => {
 	if (!user) {
 		req.session.user = { username, email, password };
 		users.push(req.session.user);
-		res.json([req.session.user]);
+		res.json({'errorMessage': ''});
 	} else {
-		req.session.user = {};
-		res.json({ 'message': 'registered' });
+		res.json({ 'errorMessage': 'User is already registered!'});
 	}
 })
 

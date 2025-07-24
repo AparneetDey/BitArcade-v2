@@ -10,6 +10,7 @@ const Authentication = () => {
 
 
 	const [action, setAction] = useState(mode === 'signup' ? false : true); /* false - Signup | true - Login */
+	const [authErrorMessage, setAuthErrorMessage] = useState('');
 	const [email, setEmail] = useState('');
 	const [isLoading, setIsLoading] = useState(false)
 	const [password, setPassword] = useState('');
@@ -17,7 +18,8 @@ const Authentication = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setIsLoading(true)
+		setIsLoading(true);
+		setAuthErrorMessage('');
 
 		const endpoint = action ? 'login' : 'signup';
 		const payload = action ?
@@ -40,15 +42,13 @@ const Authentication = () => {
 
 			const data = await response.json();
 
-			if (data.message === 'notRegistered') {
-				console.log('Not Registered')
-			} else if (data.message === 'registered') {
-				console.log('Registered')
-			} else {
+			setAuthErrorMessage(data.errorMessage);
+
+			if(data.errorMessage === ''){
 				setInterval(() => {
 					Navigate('/');
 					window.location.reload();
-				}, 500);
+				}, 1000);
 			}
 
 		} catch (error) {
@@ -67,6 +67,7 @@ const Authentication = () => {
 	const toggleAuth = (q) => {
 		const newMode = q ? 'login' : 'signup';
 		Navigate(`/authentication/${newMode}`);
+		setAuthErrorMessage('');
 	}
 
 	const bgImage = action ? '/login-bg.png' : '/signup-bg.png'
@@ -84,8 +85,8 @@ const Authentication = () => {
 					<h2>{action ? "Welcome back, let's get you back in the game." : 'Join the arcade — explore, discover, and track your favorite games.'}</h2>
 				</div>
 				<div className='input-fields'>
-
 					<form onSubmit={handleSubmit} className='all-inputs'>
+						<p className='text-[red] text-[12px] '>{authErrorMessage}</p>
 						{action ? '' :
 							<div className='input'> {/* Username */}
 								<p>Username</p>
@@ -98,6 +99,7 @@ const Authentication = () => {
 								/>
 							</div>
 						}
+
 						<div className='input'> {/* Email */}
 							<p>Email</p>
 							<input
@@ -108,6 +110,7 @@ const Authentication = () => {
 								required
 							/>
 						</div>
+
 						<div className='input'> {/* Password */}
 							<p>Password</p>
 							<input
@@ -118,6 +121,7 @@ const Authentication = () => {
 								required
 							/>
 						</div>
+
 						<div className='mt-4 flex justify-center items-center '>
 							<button type='submit' className='btn'>
 								{isLoading ? (<Spinner />) : action ? 'Login' : 'Signup'}
