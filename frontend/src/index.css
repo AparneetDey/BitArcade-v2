@@ -108,7 +108,7 @@
         }
 
         .title {
-            @apply truncate max-w-[300px] text-[16px] md:text-xl;
+            @apply truncate max-w-[200px] text-[16px] md:text-xl md:max-w-[300px] lg:max-w-[400px];
         }
 
         .info {

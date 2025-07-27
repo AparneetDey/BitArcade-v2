@@ -1,24 +1,23 @@
 import React from 'react'
 
-const Game = ({game: {title, thumb, releaseDate, dealRating, normalPrice}}) => {
-	const year = new Date(releaseDate * 1000).getFullYear();
+const Game = ({game: {name, background_image, released, rating, parent_platforms}}) => {
 
 	return (
 		<div className='game'>
 			<div className='poster'>
-				<img src={thumb? thumb : './no-poster.png'} alt="Movie Poster" />
+				<img src={background_image? background_image : './no-poster.png'} alt="Movie Poster" />
 			</div>
 			<div className='details'>
 				<p className='title'>
-					{title}
+					{name}
 				</p>
 				<div className='info'>
-					{year? year : 'N/A'}
+					{released ? released.split('-')[0] : 'N/A'}
 					<span>|</span>
 					<img className='w-[12px] h-[12px] md:w-[15px] md:h-[15px]' src="./Star.png" alt="Star icon" />
-					{dealRating === 0 ? dealRating : 'N/A'}
+					{rating > 0 ? rating : 'N/A'}
 					<span>|</span>
-					{`$${normalPrice}`}
+					{parent_platforms ? `${parent_platforms[0].platform.name}` : 'N/A'}
 				</div>
 			</div>
 		</div>

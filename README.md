@@ -12,7 +12,7 @@
 - **Game Discovery**
   - Browse a curated list of popular games
   - Search for games by title with real-time debouncing
-  - View detailed game information, including art and trailers
+  - View detailed game information, including art and trailers (powered by the [RAWG Video Games Database API](https://rawg.io/apidocs))
 
 - **User Profile**
   - View and manage your profile (username, email)
@@ -34,7 +34,7 @@
 
 - **Frontend:** React, Vite, modern CSS
 - **Backend:** Node.js (Express)
-- **API:** Integration with external game data provider (e.g., CheapShark API)
+- **API:** Integration with the [RAWG Video Games Database API](https://rawg.io/apidocs)
 - **Other:** ESLint for code quality, environment variables for configuration
 
 ## ℹ️ About This Project

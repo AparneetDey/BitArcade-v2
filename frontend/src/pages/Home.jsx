@@ -8,9 +8,9 @@ import { NavLink } from 'react-router'
 import { useScreenSize } from '../components/useScreenSize'
 import Search from '../components/Search'
 
-const GAMES_API_BASE_URL = 'https://www.cheapshark.com/api/1.0'
+const API_URL = import.meta.env.VITE_API_URL;
 
-const GAMES_API_OPTION = {
+const API_OPTION = {
   method: "GET",
   headers: {
     accept: "application/json",
@@ -19,7 +19,7 @@ const GAMES_API_OPTION = {
 
 const Home = ({ searchTerm, setSearchTerm, userData }) => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
-  const [gamesList, setGamesList] = useState([]);
+  const [gamesList, setGamesList] = useState(['game']);
   const [gamesErrorMessage, setGamesErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,10 +35,10 @@ const Home = ({ searchTerm, setSearchTerm, userData }) => {
 
     try {
       const endpoint = query ?
-        `${GAMES_API_BASE_URL}/deals?title=${encodeURIComponent(query)}&pageSize=100`
-        : `${GAMES_API_BASE_URL}/deals?pageSize=100`;
+        `${API_URL}/games?query=${query}`
+        : `${API_URL}/games`;
 
-      const response = await fetch(endpoint, GAMES_API_OPTION);
+      const response = await fetch(endpoint, API_OPTION);
 
       if (!response.ok) {
         throw new Error('Error fetching game!');
@@ -47,29 +47,33 @@ const Home = ({ searchTerm, setSearchTerm, userData }) => {
       const data = await response.json();
 
 
-      if (!data && data.length === 0) {
+      if (Object.keys(data).length === 0) {
         setGamesErrorMessage(data.error || 'Games can not be loaded');
         setGamesList([]);
         return;
       }
 
-      const uniqueGames = [];
-      const seen = new Set();
+      // const uniqueGames = [];
+      // const seen = new Set();
 
-      data.forEach((game) => {
-        if (!seen.has(game.title)) {
-          seen.add(game.title);
-          uniqueGames.push(game);
-        }
-      });
+      // data.forEach((game) => {
+      //   if (!seen.has(game.title)) {
+      //     seen.add(game.title);
+      //     uniqueGames.push(game);
+      //   }
+      // });
 
-      if (uniqueGames.length === 0) {
-        setGamesErrorMessage('No Games Found');
-        setGamesList(uniqueGames);
-        return
-      }
+      // if (uniqueGames.length === 0) {
+      //   setGamesErrorMessage('No Games Found');
+      //   setGamesList(uniqueGames);
+      //   return
+      // }
 
-      setGamesList(uniqueGames.slice(0, 21));
+      // console.log(uniqueGames);
+
+      console.log(data.results);
+
+      setGamesList(data.results);
 
     } catch (error) {
       console.log(`Error fetcing games: ${error}`);
@@ -110,8 +114,8 @@ const Home = ({ searchTerm, setSearchTerm, userData }) => {
         {isLoading ? <Spinner />
           : gamesErrorMessage ? (<p className='text-red-500'>{gamesErrorMessage}</p>)
             : <div className='all-games'>
-              {gamesList.map((game) => (
-                <Game key={game.gameID} game={game} />
+              {gamesList.map((game, index) => (
+                <Game key={`${game.id}-${game.slug}`} game={game} />
               ))}
             </div>
         }

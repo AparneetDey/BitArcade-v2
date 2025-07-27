@@ -8,6 +8,7 @@ require('dotenv').config();
 let users = [{ username: 'Aparneet', email: 'abc@gmail.com', password: '12345' }];
 
 const origin = process.env.NODE_ENV === 'production' ? 'https://bit-arcade-v2.vercel.app' : 'http://localhost:5173';
+const GAMES_API_URL = 'https://api.rawg.io/api';
 
 app.use(cors({
 	origin: origin,
@@ -42,8 +43,29 @@ app.get('/', (req, res) => {
 	res.json({ 'users': users });
 })
 
+app.get('/games', async (req,res) => {
+	const {query} = req.query;
+
+	const endpoint = query ? `${GAMES_API_URL}/games?key=${process.env.NODE_API_KEY}&page=1&ordering=-rating&search=${encodeURIComponent(query)}` : `${GAMES_API_URL}/games?key=${process.env.NODE_API_KEY}&page=1&page_size=30&ordering=-rating`
+
+	try {
+		const response = await fetch(endpoint);
+
+		if(!response.ok){
+			console.log('Response is not okay');
+			res.status(500).json({'message': 'Response not okay'});
+		}
+
+		const data = await response.json();
+
+		res.json(data);
+	} catch (error) {
+		console.log(`Error fetching error: ${error}`);
+		res.status(500).json({'message': 'Error fetching games'});
+	}
+})
+
 app.get('/user', (req, res) => {
-	console.log(req.session.user);
 	if (req.session.user) {
 		res.json({ isSignedIn: true, 'data': req.session.user });
 	} else {
