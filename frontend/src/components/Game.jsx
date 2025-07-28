@@ -1,9 +1,10 @@
 import React from 'react'
+import { Link, NavLink } from 'react-router'
 
-const Game = ({game: {name, background_image, released, rating, parent_platforms}}) => {
+const Game = ({game: {slug, name, background_image, released, rating, parent_platforms}}) => {
 
 	return (
-		<div className='game'>
+		<NavLink to={`/game/${slug}`} className='game'>
 			<div className='poster'>
 				<img src={background_image? background_image : './no-poster.png'} alt="Movie Poster" />
 			</div>
@@ -20,7 +21,7 @@ const Game = ({game: {name, background_image, released, rating, parent_platforms
 					{parent_platforms ? `${parent_platforms[0].platform.name}` : 'N/A'}
 				</div>
 			</div>
-		</div>
+		</NavLink >
 	)
 }
 
