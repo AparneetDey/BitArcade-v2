@@ -10,6 +10,7 @@ import Authentication from './pages/Authentication';
 import Profile from './pages/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
 import Spinner from './components/Spinner';
+import { useDebounce } from 'react-use';
 
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -20,9 +21,17 @@ const API_OPTION = {
 }
 
 const App = () => {
+
+	const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
 	const [isSignedIn, setIsSignedIn] = useState(null);
 	const [searchTerm, setSearchTerm] = useState('');
-	const [userData, setUserData] = useState([])
+	const [userData, setUserData] = useState([]);
+
+	useDebounce(() =>
+		setDebouncedSearchTerm(searchTerm),
+		700,
+		[searchTerm]
+	)
 
 	const fetchUser = async () => {
 		try {
@@ -54,7 +63,7 @@ const App = () => {
 	const router = createBrowserRouter([
 		{
 			path: "/",
-			element: <Home searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData} />,
+			element: <Home searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData} debouncedSearchTerm={debouncedSearchTerm} />,
 		},
 		{
 			path: "/authentication/:mode",
@@ -64,14 +73,13 @@ const App = () => {
 		},
 		{
 			path: "/profile",
-			element: ( isSignedIn === null ? <Spinner /> :
-				<ProtectedRoute isSignedIn={isSignedIn} page={'profile'} >
-					<Profile searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData} />
-				</ProtectedRoute>)
+			element: <ProtectedRoute isSignedIn={isSignedIn} page={'profile'} >
+				<Profile searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData} debouncedSearchTerm={debouncedSearchTerm} />
+			</ProtectedRoute>
 		}
 	]);
 
-return (<RouterProvider router={router} />)
+	return (<RouterProvider router={router} />)
 }
 
 export default App

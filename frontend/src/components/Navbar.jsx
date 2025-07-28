@@ -4,14 +4,14 @@ import Button from './Button'
 import { NavLink } from 'react-router'
 import { useScreenSize } from './useScreenSize'
 
-const Navbar = ({searchTerm, setSearchTerm, userData, searchBar=true}) => {
+const Navbar = ({searchTerm, setSearchTerm, userData}) => {
 	const { width, height } = useScreenSize();
 
 	return (
 		<nav className=''>
 			<NavLink to={'/'} onClick={() => window.location.reload()} className={'cursor-pointer'}><h1><span className='text-[#FF8811]'>Bit</span><span className='text-[#579ED5]'>Arcade</span></h1></NavLink>
 			{width <= 480 ? '' 
-			: searchBar ? <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} /> : ''
+			:<Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 			}
 			{userData.username ? 
 			(<NavLink to={'/profile'} className={'profile-icon'}>

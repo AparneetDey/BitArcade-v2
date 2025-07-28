@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import { useNavigate } from 'react-router';
+import { useScreenSize } from '../components/useScreenSize';
+import Search from '../components/Search';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const Profile = ({ searchTerm, setSearchTerm, userData }) => {
+const Profile = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) => {
   const navigate = useNavigate();
 
   const [logOut, setLogOut] = useState(false);
@@ -38,10 +40,24 @@ const Profile = ({ searchTerm, setSearchTerm, userData }) => {
     }
   }, [logOut, deleteAccount]);
 
+  useEffect(() => {
+    if(debouncedSearchTerm){ 
+      navigate('/');
+    }
+	}, [debouncedSearchTerm]);
+
+
+
+  const {width, height} = useScreenSize();
 
   return (
     <main>
-      <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData} searchBar={false} />
+      <div className={width <= 480 ? 'flex flex-col gap-3' : ''}>
+        <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData} />
+
+        {width > 480 ? ''
+          : <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
+      </div>
 
       <section className='px-4 md:px-10'>
         <div className='profile-info'>

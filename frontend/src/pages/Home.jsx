@@ -3,7 +3,6 @@ import Button from '../components/Button'
 import Navbar from '../components/Navbar'
 import Game from '../components/Game'
 import Spinner from '../components/Spinner'
-import { useDebounce } from 'react-use'
 import { NavLink } from 'react-router'
 import { useScreenSize } from '../components/useScreenSize'
 import Search from '../components/Search'
@@ -17,17 +16,11 @@ const API_OPTION = {
   }
 }
 
-const Home = ({ searchTerm, setSearchTerm, userData }) => {
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
+const Home = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) => {
+  
   const [gamesList, setGamesList] = useState(['game']);
   const [gamesErrorMessage, setGamesErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  useDebounce(() =>
-    setDebouncedSearchTerm(searchTerm),
-    700,
-    [searchTerm]
-  )
 
   const fetchGames = async (query) => {
     setIsLoading(true);
@@ -53,24 +46,6 @@ const Home = ({ searchTerm, setSearchTerm, userData }) => {
         return;
       }
 
-      // const uniqueGames = [];
-      // const seen = new Set();
-
-      // data.forEach((game) => {
-      //   if (!seen.has(game.title)) {
-      //     seen.add(game.title);
-      //     uniqueGames.push(game);
-      //   }
-      // });
-
-      // if (uniqueGames.length === 0) {
-      //   setGamesErrorMessage('No Games Found');
-      //   setGamesList(uniqueGames);
-      //   return
-      // }
-
-      // console.log(uniqueGames);
-
       console.log(data.results);
 
       setGamesList(data.results);
@@ -83,7 +58,8 @@ const Home = ({ searchTerm, setSearchTerm, userData }) => {
   }
 
   useEffect(() => {
-    fetchGames(debouncedSearchTerm)
+    fetchGames(debouncedSearchTerm);
+    console.log('Navigated')
   }, [debouncedSearchTerm])
 
   const { width, height } = useScreenSize();
