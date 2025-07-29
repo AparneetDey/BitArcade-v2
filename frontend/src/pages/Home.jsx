@@ -28,7 +28,7 @@ export const gameLoader = async ({ params }) => {
 
     const data = await response.json();
 
-    console.log(data);
+    return data;
   } catch (error) {
     console.log(`Error fetching game: ${error}`);
   }

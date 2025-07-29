@@ -1,7 +1,7 @@
 import React from 'react'
 import Search from './Search'
 import Button from './Button'
-import { NavLink } from 'react-router'
+import { Link, NavLink } from 'react-router'
 import { useScreenSize } from './useScreenSize'
 
 const Navbar = ({searchTerm, setSearchTerm, userData}) => {
@@ -9,7 +9,7 @@ const Navbar = ({searchTerm, setSearchTerm, userData}) => {
 
 	return (
 		<nav className=''>
-			<NavLink to={'/'} onClick={() => window.location.reload()} className={'cursor-pointer'}><h1><span className='text-[#FF8811]'>Bit</span><span className='text-[#579ED5]'>Arcade</span></h1></NavLink>
+			<Link to={'/'} className={'cursor-pointer'}><h1><span className='text-[#FF8811]'>Bit</span><span className='text-[#579ED5]'>Arcade</span></h1></Link>
 			{width <= 480 ? '' 
 			:<Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 			}
