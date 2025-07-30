@@ -6,6 +6,7 @@ import Spinner from '../components/Spinner'
 import { NavLink } from 'react-router'
 import { useScreenSize } from '../components/useScreenSize'
 import Search from '../components/Search'
+import ScrollToTop from '../components/ScrollToTop'
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -65,6 +66,7 @@ const Home = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) => {
 
   return (
     <main>
+      <ScrollToTop />
       <div className={width <= 480 ? 'flex flex-col gap-3' : ''}>
         <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData} />
 

@@ -220,7 +220,7 @@
         }
 
         .tag {
-            @apply text-[#bababa] text-[14px] px-2 py-1 border-2 border-[#bababa] rounded-[10px] font-[500];
+            @apply text-[#bababa] px-2 py-1 border-2 border-[#bababa] rounded-[10px] font-[500];
         }
     }
 }
