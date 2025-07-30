@@ -5,11 +5,10 @@ import {
 	RouterProvider,
 } from "react-router";
 
-import Home, { gameLoader } from './pages/Home'
+import Home from './pages/Home'
 import Authentication from './pages/Authentication';
 import Profile from './pages/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
-import Spinner from './components/Spinner';
 import { useDebounce } from 'react-use';
 import GamePreview from './pages/GamePreview';
 
@@ -61,31 +60,53 @@ const App = () => {
 		fetchUser();
 	}, [])
 
-	const router = createBrowserRouter([
-		{
-			path: "/",
-			element: <Home searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData} debouncedSearchTerm={debouncedSearchTerm} />,
-		},
-		{
-			path: "/authentication/:mode",
-			element: <ProtectedRoute isSignedIn={isSignedIn} page={'auth'} >
-				<Authentication setIsSignedIn={setIsSignedIn} />
-			</ProtectedRoute>
-		},
-		{
-			path: "/profile",
-			element: <ProtectedRoute isSignedIn={isSignedIn} page={'profile'} >
-				<Profile searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData} debouncedSearchTerm={debouncedSearchTerm} />
-			</ProtectedRoute>
-		},
-		{
-			path: "/game/:slug",
-			element: <GamePreview searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData} />,
-			loader: gameLoader
-		}
-	]);
+	const router = createBrowserRouter(
+		[
+			{
+				path: '/',
+				element: <Home
+					searchTerm={searchTerm}
+					setSearchTerm={setSearchTerm}
+					userData={userData}
+					debouncedSearchTerm={debouncedSearchTerm}
+				/>
+			},
+			{
+				path: "authentication/:mode",
+				element: (
+					<ProtectedRoute isSignedIn={isSignedIn} page="auth">
+						<Authentication setIsSignedIn={setIsSignedIn} />
+					</ProtectedRoute>
+				),
+			},
+			{
+				path: "profile",
+				element: (
+					<ProtectedRoute isSignedIn={isSignedIn} page="profile">
+						<Profile
+							searchTerm={searchTerm}
+							setSearchTerm={setSearchTerm}
+							userData={userData}
+							debouncedSearchTerm={debouncedSearchTerm}
+						/>
+					</ProtectedRoute>
+				),
+			},
+			{
+				path: "game/:slug",
+				element: (
+					<GamePreview
+						searchTerm={searchTerm}
+						setSearchTerm={setSearchTerm}
+						userData={userData}
+						isSignedIn={isSignedIn}
+					/>
+				),
+			},
+		]);
 
-	return (<RouterProvider router={router} />)
+
+return (<RouterProvider router={router} />)
 }
 
 export default App

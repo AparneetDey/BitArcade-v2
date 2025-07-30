@@ -1,14 +1,58 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useScreenSize } from '../components/useScreenSize';
 import Navbar from '../components/Navbar';
 import Search from '../components/Search';
-import { useLoaderData } from 'react-router';
+import { useParams } from 'react-router';
+import Spinner from '../components/Spinner';
 
-const GamePreview = ({ searchTerm, setSearchTerm, userData }) => {
+const API_URL = import.meta.env.VITE_API_URL;
+
+const GamePreview = ({ searchTerm, setSearchTerm, userData, isSignedIn }) => {
+
+  const [errorMessage, setErrorMessage] = useState('')
+  const [game, setGame] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  const { slug } = useParams();
   const { width, height } = useScreenSize();
+  const heartImg = saved ? '/active-heart.svg' : '/inactive-heart.svg';
 
-  const game = useLoaderData();
-  console.log(game)
+
+  const fetchGame = async () => {
+    setIsLoading(true);
+    setErrorMessage('')
+
+    try {
+      const response = await fetch(`${API_URL}/gameSlug?slug=${slug}`);
+
+      if (!response.ok) {
+        throw new Error('Response not okay');
+      }
+
+      const data = await response.json();
+
+      if (Object.keys(data).length === 0) {
+        setGame({});
+        setErrorMessage('Sorry! The game can not be loaded!');
+        return 0;
+      }
+
+      console.log(data);
+
+      setGame(data);
+    } catch (error) {
+      console.log(`Error fetching game: ${error}`);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchGame()
+  }, [slug])
+
+
   const { name, background_image, rating } = game;
 
   return (
@@ -20,24 +64,39 @@ const GamePreview = ({ searchTerm, setSearchTerm, userData }) => {
           : <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
       </div>
 
-      <section className='flex flex-col gap-[32px] px-4 md:px-10'>
-        <div className='flex flex-col gap-auto md:flex-row'>
-          <h2>{name ? name : 'NA'}</h2>
-          <div className=' flex'>
-            <div className=' flex items-center justify-center bg-[#579ED5] border-[#366183] border-2 rounded-[10px] gap-1 px-2 py-1 '>
-              <img className='w-[15px] h-[15px]' src="/Star.png" alt="Star icon" />
-              <p className='text-white text-[14px]'>{rating > 0 ? rating : 'N/A'}/5</p>
-            </div>
-            <div>
-              A
-            </div>
-          </div>
-        </div>
+      {isLoading ? <div className='flex justify-center items-center'><Spinner /></div> :
+        (
+          <section className='game-preview'>
+            <div className='header'>
 
-        <div className='aspect-[4/2] w-full md:aspect-[6/2] rounded-2xl shadow-[0_5px_15px_0px_rgba(255,255,255,0.4)] '>
-          <img className='w-full h-full object-cover rounded-2xl ' src={background_image ? background_image : '/mo-poster.png'} alt={name ? name : 'Game Name'} />
-        </div>
-      </section>
+              <h2>{name ? name : 'NA'}</h2>
+
+              <div className=' flex gap-2'>
+
+                <div className=' icon ' title='Ratings'>  {/* Rating */}
+                  <p className='text-white text-[14px]'>{rating > 0 ? `${rating}/5` : 'N/A'}</p>
+                </div>
+
+                {isSignedIn ? (
+                  <div className='icon cursor-pointer' onClick={(e) => setSaved(!saved)} title='Favourite' >  {/* Save */}
+                    <img className='w-5 h-5 object-cover' src={heartImg} alt="Heart Icon" />
+                  </div>
+                ) : ''}
+
+              </div>
+
+            </div>
+
+            <div className='poster'>
+              <img src={background_image ? background_image : '/no-poster.png'} alt={name ? name : 'Game Name'} />
+            </div>
+
+            {errorMessage && <p className='text-red-500'>{errorMessage}</p>}
+
+          </section>
+
+        )}
+
     </main>
   )
 }

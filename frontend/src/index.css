@@ -195,4 +195,24 @@
             @apply text-white font-[600] border-2 border-[#ffffff] px-4 py-2 rounded-xl transition-all duration-200 ease-in-out cursor-pointer;
         }
     }
+
+    .game-preview {
+        @apply flex flex-col gap-[32px] px-4 md:px-10;
+
+        .header {
+            @apply flex flex-col gap-y-2 justify-between md:flex-row;
+        }
+
+        .icon {
+            @apply flex items-center justify-center bg-[#579ED5] border-[#366183] border-2 rounded-[10px] gap-1 px-3 py-1;
+        }
+
+        .poster {
+            @apply aspect-[4/2] w-full md:aspect-[6/2] rounded-2xl shadow-[0_5px_15px_0px_rgba(255,255,255,0.4)] ;
+        }
+
+        .poster img{
+            @apply w-full h-full object-cover rounded-2xl;
+        }
+    }
 }

@@ -16,24 +16,6 @@ const API_OPTION = {
   }
 }
 
-export const gameLoader = async ({ params }) => {
-  const {slug} = params;
-
-  try {
-    const response = await fetch(`${API_URL}/gameSlug?slug=${slug}`);
-
-    if(!response.ok){
-      throw new Error('Response not okay');
-    }
-
-    const data = await response.json();
-
-    return data;
-  } catch (error) {
-    console.log(`Error fetching game: ${error}`);
-  }
-}
-
 const Home = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) => {
   
   const [gamesList, setGamesList] = useState(['game']);
