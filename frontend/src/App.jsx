@@ -10,7 +10,7 @@ import Authentication from './pages/Authentication';
 import Profile from './pages/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
 import { useDebounce } from 'react-use';
-import GamePreview from './pages/GamePreview';
+import GamePreview, { GameLoader } from './pages/GamePreview';
 
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -102,6 +102,7 @@ const App = () => {
 						isSignedIn={isSignedIn}
 					/>
 				),
+				loader: GameLoader,
 			},
 		]);
 

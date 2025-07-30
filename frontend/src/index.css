@@ -214,5 +214,13 @@
         .poster img{
             @apply w-full h-full object-cover rounded-2xl;
         }
+
+        .label {
+            @apply self-start text-[#FF8811] font-bold;
+        }
+
+        .tag {
+            @apply text-[#bababa] text-[14px] px-2 py-1 border-2 border-[#bababa] rounded-[10px] font-[500];
+        }
     }
 }

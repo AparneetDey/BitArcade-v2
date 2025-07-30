@@ -60,7 +60,7 @@ app.get('/games', async (req,res) => {
 
 		res.json(data);
 	} catch (error) {
-		console.log(`Error fetching error: ${error}`);
+		console.log(`Error fetching games list: ${error}`);
 		res.status(500).json({'message': 'Error fetching games'});
 	}
 })
