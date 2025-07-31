@@ -8,6 +8,7 @@ require('dotenv').config();
 let users = [{ username: 'Aparneet', email: 'abc@gmail.com', password: '12345' }];
 
 const origin = process.env.NODE_ENV === 'production' ? 'https://bit-arcade.vercel.app/' : 'http://localhost:5173';
+
 const GAMES_API_URL = 'https://api.rawg.io/api';
 
 app.use(cors({
@@ -40,7 +41,7 @@ app.use(session({
 }))
 
 app.get('/', (req, res) => {
-	res.json({ 'users': users });
+	res.json({ 'users': users, 'origin': origin });
 })
 
 app.get('/games', async (req,res) => {
