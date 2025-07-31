@@ -7,7 +7,7 @@ require('dotenv').config();
 
 let users = [{ username: 'Aparneet', email: 'abc@gmail.com', password: '12345' }];
 
-const origin = process.env.NODE_ENV === 'production' ? 'https://bit-arcade.vercel.app/' : 'http://localhost:5173';
+const origin = process.env.NODE_ENV === 'production' ? 'https://bit-arcade.vercel.app' : 'http://localhost:5173';
 
 const GAMES_API_URL = 'https://api.rawg.io/api';
 
