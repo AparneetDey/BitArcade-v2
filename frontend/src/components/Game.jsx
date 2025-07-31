@@ -15,7 +15,7 @@ const Game = ({game: {slug, name, background_image, released, rating, parent_pla
 				<div className='info'>
 					{released ? released.split('-')[0] : 'N/A'}
 					<span>|</span>
-					<img className='w-[12px] h-[12px] md:w-[15px] md:h-[15px]' src="./Star.png" alt="Star icon" />
+					<img className='w-[12px] h-[12px] md:w-[15px] md:h-[15px]' src="/Star.png" alt="Star icon" />
 					{rating > 0 ? rating : 'N/A'}
 					<span>|</span>
 					{parent_platforms ? `${parent_platforms[0].platform.name}` : 'N/A'}

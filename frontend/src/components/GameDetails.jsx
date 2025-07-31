@@ -5,7 +5,7 @@ import Button from './Button';
 
 const GameDetails = ({ game }) => {
     return (
-        <div className='grid grid-cols-[100px_1fr] gap-x-2 gap-y-[18px] md:grid-cols-[150px_1fr] max-w-[900px] w-full'>
+        <div className='grid grid-cols-[100px_1fr] gap-x-2 gap-y-[18px] md:grid-cols-[150px_1fr] w-full'>
 
 
             {/* description */}
@@ -18,9 +18,9 @@ const GameDetails = ({ game }) => {
                 (
                     <div className='flex flex-wrap gap-2'>
                         {game.developers.map((dev, index) => (
-                            <div key={dev.id} className='text-[#bababa]'>
+                            <div key={dev.id} className='text-[#fff]'>
                                 {dev.name}
-                                {index < game.developers.length - 1 && <span className='text-[#D6C7FF]'>|</span>}
+                                {index < game.developers.length - 1 && <span className='text-white'>|</span>}
                             </div>
                         ))}
                     </div>
@@ -62,21 +62,21 @@ const GameDetails = ({ game }) => {
 
             {/* metacritic */}
             <div className='label'>Metacritic</div>
-            <div className='text-[#bababa]'>{game.metacritic ? game.metacritic : 'N/A'}</div>
+            <div className='text-[#fff]'>{game.metacritic ? game.metacritic : 'N/A'}</div>
 
             {/* released */}
             <div className='label'>Released</div>
-            <div className='text-[#bababa]'>{game.released ? game.released : 'N/A'}</div>
+            <div className='text-[#fff]'>{game.released ? game.released : 'N/A'}</div>
 
-            {/* developers */}
+            {/* platforms */}
             <div className='label'>Platforms</div>
             {game.platforms.length !== 0 ?
                 (
                     <div className='flex flex-wrap gap-1'>
                         {game.platforms.map((platform, index) => (
-                            <div key={platform.platform.id} className='text-[#bababa] flex gap-1'>
+                            <div key={platform.platform.id} className='text-[#fff] flex gap-1'>
                                 {platform.platform.name}
-                                {index < game.platforms.length - 1 && <span className='text-[#D6C7FF]'>|</span>}
+                                {index < game.platforms.length - 1 && <span className='text-[#fff]'>|</span>}
                             </div>
                         ))}
                     </div>

@@ -6,8 +6,20 @@ import { useLoaderData, useParams } from 'react-router';
 import Spinner from '../components/Spinner';
 import GameDetails from '../components/GameDetails';
 import ScrollToTop from '../components/ScrollToTop';
+import Game from '../components/Game';
 
 const API_URL = import.meta.env.VITE_API_URL;
+
+const API_OPTION = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+  }
+}
+
+const getRandomInt = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 export const GameLoader = async ({ params }) => {
   const { slug } = params
@@ -39,7 +51,45 @@ const GamePreview = ({ searchTerm, setSearchTerm, userData, isSignedIn }) => {
   const game = useLoaderData();
 
   const [errorMessage, setErrorMessage] = useState('');
+  const [gamesErrorMessage, setGamesErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false)
   const [saved, setSaved] = useState(false);
+  const [similarGamesList, setSimilarGamesList] = useState([]);
+
+  const fetchSimilarGame = async () => {
+    setIsLoading(true);
+    setGamesErrorMessage('');
+
+    const index = getRandomInt(0,game.genres.length-1);
+    console.log(index);
+
+    try {
+      const endpoint = `${API_URL}/similargames?genre=${game.genres[index].slug}`;
+
+      const response = await fetch(endpoint, API_OPTION);
+
+      if (!response.ok) {
+        throw new Error('Error fetching game!');
+      }
+
+      const data = await response.json();
+
+      if (data.results.length === 0) {
+        setGamesErrorMessage(data.error || 'Games not found!');
+        setSimilarGamesList([]);
+        return;
+      }
+
+      const uniqueGames = data.results.filter(g => g.id !== game.id);
+
+      setSimilarGamesList(uniqueGames.slice(0,6));
+
+    } catch (error) {
+      console.log(`Error fetcing games: ${error}`);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const { width, height } = useScreenSize();
   const heartImg = saved ? '/active-heart.svg' : '/inactive-heart.svg';
@@ -50,7 +100,8 @@ const GamePreview = ({ searchTerm, setSearchTerm, userData, isSignedIn }) => {
     if (!game) {
       setErrorMessage('Sorry! There is some issue loading the game.');
     }
-  }, [])
+    fetchSimilarGame();
+  }, [game])
 
 
   return (
@@ -91,6 +142,19 @@ const GamePreview = ({ searchTerm, setSearchTerm, userData, isSignedIn }) => {
 
         <section>
           <GameDetails game={game} />
+        </section>
+
+        <section className='flex flex-col gap-[32px]'>
+          <h2>Similar Games</h2>
+
+          {isLoading ? <Spinner />
+            : gamesErrorMessage ? (<p className='text-red-500'>{gamesErrorMessage}</p>)
+              : <div className='all-games'>
+                {similarGamesList.map((game) => (
+                  <Game key={`${game.id}-${game.slug}`} game={game} />
+                ))}
+              </div>
+          }
         </section>
 
         {errorMessage && <p className='text-red-500'>{errorMessage}</p>}

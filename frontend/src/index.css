@@ -21,7 +21,7 @@
     }
 
     main {
-        @apply flex flex-col gap-[48px] md:gap-16 mb-6;
+        @apply flex flex-col gap-[48px] md:gap-16 mb-10;
     }
 
     nav {

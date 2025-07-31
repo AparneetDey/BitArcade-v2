@@ -85,6 +85,27 @@ app.get('/gameSlug', async (req,res) => {
 	}
 })
 
+app.get('/similargames', async (req,res) => {
+	const {genre} = req.query;
+	console.log(genre);
+
+	try {
+		const response = await fetch(`${GAMES_API_URL}/games?genres=${genre}&key=${process.env.NODE_API_KEY}&page=1&page_size=7&ordering=-rating`);
+
+		if(!response.ok){
+			console.log('Response is not okay');
+			res.status(500).json({'message': 'Response not okay'});
+		}
+
+		const data = await response.json();
+
+		res.json(data);
+	} catch (error) {
+		console.log(`Error fetching game: ${error}`);
+		res.status(500).json({'message': 'Error fetching game'});
+	}
+})
+
 app.get('/user', (req, res) => {
 	if (req.session.user) {
 		res.json({ isSignedIn: true, 'data': req.session.user });

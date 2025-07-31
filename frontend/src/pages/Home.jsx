@@ -19,7 +19,7 @@ const API_OPTION = {
 
 const Home = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) => {
   
-  const [gamesList, setGamesList] = useState(['game']);
+  const [gamesList, setGamesList] = useState([]);
   const [gamesErrorMessage, setGamesErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
