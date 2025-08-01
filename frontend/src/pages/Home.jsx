@@ -47,8 +47,6 @@ const Home = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) => {
         return;
       }
 
-      console.log(data.results);
-
       setGamesList(data.results);
 
     } catch (error) {
@@ -61,6 +59,13 @@ const Home = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) => {
   useEffect(() => {
     fetchGames(debouncedSearchTerm);
   }, [debouncedSearchTerm])
+
+  useEffect(() => {
+    return () => {
+      setSearchTerm('')
+    }
+  }, [])
+  
 
   const { width, height } = useScreenSize();
 

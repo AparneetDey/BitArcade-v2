@@ -100,6 +100,7 @@ const App = () => {
 						setSearchTerm={setSearchTerm}
 						userData={userData}
 						isSignedIn={isSignedIn}
+						debouncedSearchTerm={debouncedSearchTerm}
 					/>
 				),
 				loader: GameLoader,

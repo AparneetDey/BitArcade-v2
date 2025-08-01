@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, NavLink } from 'react-router'
+import { NavLink } from 'react-router'
 
 const Game = ({game: {slug, name, background_image, released, rating, parent_platforms}}) => {
 

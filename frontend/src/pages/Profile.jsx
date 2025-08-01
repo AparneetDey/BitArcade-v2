@@ -10,8 +10,9 @@ const API_URL = import.meta.env.VITE_API_URL;
 const Profile = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) => {
   const navigate = useNavigate();
 
-  const [logOut, setLogOut] = useState(false);
   const [deleteAccount, setDeleteAccount] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
+  const [logOut, setLogOut] = useState(false);
 
   const handleLogOut = async (actionType) => {
     try {
@@ -42,12 +43,16 @@ const Profile = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) =
   }, [logOut, deleteAccount]);
 
   useEffect(() => {
-    if(debouncedSearchTerm){ 
+    if(!hasMounted) return;
+
+    if(searchTerm){ 
       navigate('/');
     }
-	}, [debouncedSearchTerm]);
+	}, [debouncedSearchTerm, hasMounted]);
 
-
+  useEffect(() => {
+    setHasMounted(true);
+  }, [])
 
   const {width, height} = useScreenSize();
 

@@ -18,7 +18,7 @@ const GameDetails = ({ game }) => {
                 (
                     <div className='flex flex-wrap gap-2'>
                         {game.developers.map((dev, index) => (
-                            <div key={dev.id} className='text-[#fff]'>
+                            <div key={dev.id} className='text-[#fff] flex gap-1'>
                                 {dev.name}
                                 {index < game.developers.length - 1 && <span className='text-white'>|</span>}
                             </div>

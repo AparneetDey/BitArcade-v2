@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useScreenSize } from '../components/useScreenSize';
 import Navbar from '../components/Navbar';
 import Search from '../components/Search';
-import { useLoaderData, useParams } from 'react-router';
+import { useLoaderData, useNavigate, useParams } from 'react-router';
 import Spinner from '../components/Spinner';
 import GameDetails from '../components/GameDetails';
 import ScrollToTop from '../components/ScrollToTop';
@@ -39,19 +39,18 @@ export const GameLoader = async ({ params }) => {
       return 0;
     }
 
-    console.log(data);
-
     return data;
   } catch (error) {
     console.log(`Error fetching game: ${error}`);
   }
 }
 
-const GamePreview = ({ searchTerm, setSearchTerm, userData, isSignedIn }) => {
+const GamePreview = ({ searchTerm, setSearchTerm, userData, isSignedIn, debouncedSearchTerm }) => {
   const game = useLoaderData();
 
   const [errorMessage, setErrorMessage] = useState('');
   const [gamesErrorMessage, setGamesErrorMessage] = useState('');
+  const [hasMounted, setHasMounted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [saved, setSaved] = useState(false);
   const [similarGamesList, setSimilarGamesList] = useState([]);
@@ -61,7 +60,6 @@ const GamePreview = ({ searchTerm, setSearchTerm, userData, isSignedIn }) => {
     setGamesErrorMessage('');
 
     const index = getRandomInt(0,game.genres.length-1);
-    console.log(index);
 
     try {
       const endpoint = `${API_URL}/similargames?genre=${game.genres[index].slug}`;
@@ -93,8 +91,13 @@ const GamePreview = ({ searchTerm, setSearchTerm, userData, isSignedIn }) => {
 
   const { width, height } = useScreenSize();
   const heartImg = saved ? '/active-heart.svg' : '/inactive-heart.svg';
+  const navigate = useNavigate();
 
   const { name, background_image, rating, ratings_count } = game;
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, [])
 
   useEffect(() => {
     if (!game) {
@@ -102,6 +105,14 @@ const GamePreview = ({ searchTerm, setSearchTerm, userData, isSignedIn }) => {
     }
     fetchSimilarGame();
   }, [game])
+
+  useEffect(() => {
+    if(!hasMounted) return;
+
+    if(searchTerm){ 
+      navigate('/');
+    }
+	}, [debouncedSearchTerm, hasMounted]);
 
 
   return (
