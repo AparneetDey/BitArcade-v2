@@ -23,6 +23,7 @@ const API_OPTION = {
 const App = () => {
 
 	const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
+	const [genre, setGenre] = useState('')
 	const [isSignedIn, setIsSignedIn] = useState(null);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [userData, setUserData] = useState([]);
@@ -107,7 +108,16 @@ const App = () => {
 			},
 			{
 				path: "genres",
-				element: <Genres searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData}/>
+				element: (
+					<Genres
+						searchTerm={searchTerm}
+						setSearchTerm={setSearchTerm}
+						userData={userData}
+						genre={genre}
+						setGenre={setGenre}
+						debouncedSearchTerm={debouncedSearchTerm}
+					/>
+				)
 			}
 		]);
 

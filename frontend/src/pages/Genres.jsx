@@ -5,50 +5,26 @@ import { useScreenSize } from '../components/useScreenSize';
 import Search from '../components/Search';
 import Spinner from '../components/Spinner';
 import Game from '../components/Game';
+import GenreList from '../components/GenreList';
+import { useNavigate } from 'react-router';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const Genres = ({ searchTerm, setSearchTerm, userData }) => {
+const API_OPTION = {
+    method: "GET",
+    headers: {
+        accept: "application/json",
+    }
+}
+
+const Genres = ({ searchTerm, setSearchTerm, userData, genre, setGenre, debouncedSearchTerm }) => {
     const [gamesList, setGamesList] = useState([]);
     const [gamesErrorMessage, setGamesErrorMessage] = useState('');
-    const [genresList, setGenresList] = useState([]);
-    const [genresErrorMessage, setGenresErrorMessage] = useState('');
-    const [genre, setGenre] = useState('')
+    const [hasMounted, setHasMounted] = useState(false)
     const [isLoading, setIsLoading] = useState(false);
 
     const { width, height } = useScreenSize();
-
-    const fetchGenres = async () => {
-        setIsLoading(true);
-        try {
-            const response = await fetch(`${API_URL}/genres`);
-
-            if (!response.ok) {
-                throw new Error('Error loading genres');
-            }
-
-            const data = await response.json();
-
-            if (Object.keys(data).length === 0) {
-                setGenresList([]);
-                setGenresErrorMessage('No genres found');
-                return;
-            }
-
-            console.log(data.results);
-
-            setGenresList(data.results);
-
-        } catch (error) {
-            console.log(`Error loading genres: ${error}`);
-        } finally {
-            setIsLoading(false);
-        }
-    }
-
-    useEffect(() => {
-        fetchGenres();
-    }, [])
+    const navigate = useNavigate();
 
     const fetchGenresGames = async (query) => {
         setIsLoading(true);
@@ -56,10 +32,10 @@ const Genres = ({ searchTerm, setSearchTerm, userData }) => {
 
         try {
             const endpoint = query ?
-                `${API_URL}/games?query=${query}`
-                : `${API_URL}/games`;
+                `${API_URL}/genregames?query=${query}`
+                : `${API_URL}/genregames`;
 
-            const response = await fetch(endpoint);
+            const response = await fetch(endpoint, API_OPTION);
 
             if (!response.ok) {
                 throw new Error('Error fetching game!');
@@ -69,7 +45,7 @@ const Genres = ({ searchTerm, setSearchTerm, userData }) => {
 
 
             if (Object.keys(data).length === 0) {
-                setGamesErrorMessage(data.error || 'Games can not be loaded');
+                setGamesErrorMessage(data.error || 'No Game found for this Genre!');
                 setGamesList([]);
                 return;
             }
@@ -84,9 +60,23 @@ const Genres = ({ searchTerm, setSearchTerm, userData }) => {
     }
 
     useEffect(() => {
-        fetchGenresGames()
-    }, [genre])
+        fetchGenresGames(genre.slug)
+    }, [genre.slug])
 
+    useEffect(() => {
+      setHasMounted(true)
+    }, [])
+    
+
+    useEffect(() => {
+        if (!hasMounted) return;
+
+        console.log(searchTerm)
+
+        if (searchTerm) {
+            navigate('/');
+        }
+    }, [debouncedSearchTerm, hasMounted]);
 
     return (
         <main>
@@ -98,27 +88,10 @@ const Genres = ({ searchTerm, setSearchTerm, userData }) => {
                     : <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
             </div>
 
-            <section className='px-4 md:px-10 flex flex-col gap-[32px]'>
-                <h2>Genres</h2>
-
-                {isLoading ? <Spinner />
-                    : genresErrorMessage ? (<p className='text-red-500'>{genresErrorMessage}</p>)
-                        :
-                        <div className='all-genres'>
-                            {genresList.map((genre) => (
-                                <div key={genre.id} onClick={() => setGenre(genre.name)} className='genre' title={genre.name}>
-                                    <div className='background'>
-                                        <img src={genre.image_background} alt={genre.name} />
-                                    </div>
-                                    <h3 className='name'>{genre.name}</h3>
-                                </div>
-                            ))}
-                        </div>
-                }
-            </section>
+            <GenreList setGenre={setGenre} />
 
             <section className='px-4 md:px-10 flex flex-col gap-[32px]'>
-                <h2>Filtered Games</h2>
+                <h2>Filtered Games {genre ? `(${genre.name})` : ''}</h2>
 
                 {isLoading ? <Spinner />
                     : gamesErrorMessage ? (<p className='text-red-500'>{gamesErrorMessage}</p>)
