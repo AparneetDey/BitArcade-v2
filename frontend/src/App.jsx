@@ -11,7 +11,7 @@ import Profile from './pages/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
 import { useDebounce } from 'react-use';
 import GamePreview, { GameLoader } from './pages/GamePreview';
-
+import Genres from './pages/Genres';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -105,6 +105,10 @@ const App = () => {
 				),
 				loader: GameLoader,
 			},
+			{
+				path: "genres",
+				element: <Genres searchTerm={searchTerm} setSearchTerm={setSearchTerm} userData={userData}/>
+			}
 		]);
 
 

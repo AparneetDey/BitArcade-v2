@@ -41,7 +41,7 @@
     .search {
         @apply w-full max-w-[600px] bg-[#1A162A] border-[2px] border-[#000000]/35 h-11 py-2 xs:h-9 rounded-full px-2 xs:py-1;
 
-        & div {
+        .bar {
             @apply relative flex items-center;
         }
 
@@ -215,12 +215,46 @@
             @apply w-full h-full object-cover rounded-2xl;
         }
 
+        .desc {
+            @apply grid grid-cols-[100px_1fr] gap-x-2 gap-y-[18px] md:grid-cols-[150px_1fr] w-full;
+        }
+
         .label {
             @apply self-start text-[#FF8811] font-bold;
         }
 
         .tag {
             @apply text-[#bababa] px-2 py-1 border-2 border-[#bababa] rounded-[10px] font-[500];
+        }
+    }
+
+    .all-genres {
+        @apply flex flex-wrap gap-6;
+
+        .genre {
+            @apply max-w-[150px] min-h-[40px] max-h-[100px] h-full w-full relative;
+        }
+
+        .genre .background {
+            @apply w-full h-full absolute top-0 left-0 before:rounded-2xl;
+        }
+
+        .genre .background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.7);
+            width: 100%;
+            height: 100%;
+        }
+
+        .genre .background img {
+            @apply w-full h-full object-cover rounded-2xl;
+        }
+
+        .name {
+            @apply text-white text-sm absolute top-[50%] left-[10px] translate-y-[-50%] font-[500] md:text-lg truncate w-[90%] z-20;
         }
     }
 }

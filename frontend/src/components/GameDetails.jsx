@@ -5,9 +5,7 @@ import Button from './Button';
 
 const GameDetails = ({ game }) => {
     return (
-        <div className='grid grid-cols-[100px_1fr] gap-x-2 gap-y-[18px] md:grid-cols-[150px_1fr] w-full'>
-
-
+        <div className='desc'>
             {/* description */}
             <div className='label'>Description</div>
             <p className='text-white' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(game.description) }}></p>

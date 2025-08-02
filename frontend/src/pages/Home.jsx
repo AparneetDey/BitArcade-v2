@@ -78,6 +78,7 @@ const Home = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) => {
         {width > 480 ? ''
           : <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
       </div>
+      
       {debouncedSearchTerm === '' ?
         <section className='hero'>
           <p className='main-liner'>From retro gems to modern epics – explore the world of games in one place.</p>
