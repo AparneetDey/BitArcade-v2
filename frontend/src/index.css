@@ -232,7 +232,7 @@
         @apply flex flex-wrap gap-6;
 
         .genre {
-            @apply max-w-[150px] min-h-[40px] max-h-[100px] h-full w-full relative;
+            @apply max-w-[150px] min-h-[40px] h-full w-full relative flex cursor-pointer;
         }
 
         .genre .background {
@@ -254,7 +254,7 @@
         }
 
         .name {
-            @apply text-white text-sm absolute top-[50%] left-[10px] translate-y-[-50%] font-[500] md:text-lg truncate w-[90%] z-20;
+            @apply text-white text-sm absolute top-[50%] translate-y-[-50%] font-[500] md:text-lg truncate w-[100%] z-20 text-center px-2;
         }
     }
 }

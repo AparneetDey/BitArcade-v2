@@ -97,7 +97,7 @@ const Home = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) => {
         {isLoading ? <Spinner />
           : gamesErrorMessage ? (<p className='text-red-500'>{gamesErrorMessage}</p>)
             : <div className='all-games'>
-              {gamesList.map((game, index) => (
+              {gamesList.map((game) => (
                 <Game key={`${game.id}-${game.slug}`} game={game} />
               ))}
             </div>

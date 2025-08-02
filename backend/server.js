@@ -130,6 +130,28 @@ app.get('/genres', async (req,res) => {
 	}
 })
 
+app.get('/genregames', async (req,res) => {
+	const {query} = req.query;
+
+	const endpoint = query ? `${GAMES_API_URL}/games?key=${process.env.NODE_API_KEY}&page=1&ordering=-rating&genres=${encodeURIComponent(query)}` : `${GAMES_API_URL}/games?key=${process.env.NODE_API_KEY}&page=1&ordering=-rating`
+
+	try {
+		const response = await fetch(endpoint);
+
+		if(!response.ok){
+			console.log('Response is not okay');
+			res.status(500).json({'message': 'Response not okay'});
+		}
+
+		const data = await response.json();
+
+		res.json(data);
+	} catch (error) {
+		console.log(`Error fetching games list: ${error}`);
+		res.status(500).json({'message': 'Error fetching games'});
+	}
+})
+
 app.get('/user', (req, res) => {
 	if (req.session.user) {
 		res.json({ isSignedIn: true, 'data': req.session.user });
