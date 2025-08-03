@@ -134,7 +134,7 @@ const GamePreview = ({ searchTerm, setSearchTerm, userData, isSignedIn, debounce
           <div className=' flex gap-2'>
 
             <div className=' icon ' title='Ratings'>  {/* Rating */}
-              <p className='text-white text-[14px]'>{rating > 0 ? `${rating}/5 (${ratings_count})` : 'N/A'}</p>
+              <p className='font-[500] text-[14px]'>{rating > 0 ? `${rating}/5 (${ratings_count})` : 'N/A'}</p>
             </div>
 
             {isSignedIn ? (

@@ -2,6 +2,7 @@
   "name": "bitarcade-v2",
   "version": "1.0.0",
   "scripts": {
-    "build": "cd frontend && npm install && npm run build"
+    "build": "cd frontend && npm install && npm run build",
+    "generate-sitemap": "node backend/sitemap-generator.js"
   }
 } 

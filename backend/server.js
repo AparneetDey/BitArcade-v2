@@ -133,7 +133,8 @@ app.get('/genres', async (req,res) => {
 app.get('/genregames', async (req,res) => {
 	const {query} = req.query;
 
-	const endpoint = query ? `${GAMES_API_URL}/games?key=${process.env.NODE_API_KEY}&page=1&ordering=-rating&genres=${encodeURIComponent(query)}` : `${GAMES_API_URL}/games?key=${process.env.NODE_API_KEY}&page=30&ordering=-rating`
+	const endpoint = query ? `${GAMES_API_URL}/games?key=${process.env.NODE_API_KEY}&page=1&ordering=-rating&genres=${encodeURIComponent(query)}` 
+	: `${GAMES_API_URL}/games?key=${process.env.NODE_API_KEY}&page=30&ordering=-rating`
 
 	try {
 		const response = await fetch(endpoint);

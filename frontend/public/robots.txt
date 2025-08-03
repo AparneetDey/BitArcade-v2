@@ -1,0 +1,36 @@
+User-agent: *
+Allow: /
+
+# Allow crawling of main pages
+Allow: /
+Allow: /authentication/login
+Allow: /authentication/signup
+Allow: /genres
+Allow: /profile
+Allow: /game/
+
+# Disallow crawling of API endpoints and sensitive areas
+Disallow: /api/
+Disallow: /backend/
+Disallow: /node_modules/
+Disallow: /src/
+
+# Disallow crawling of development files
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /*.map$
+
+# Allow crawling of static assets
+Allow: /public/
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.ico$
+
+# Crawl delay (optional - reduces server load)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://bit-arcade.vercel.app/sitemap.xml 
