@@ -55,7 +55,7 @@ const GenreList = ({ setGenre }) => {
                     :
                     <div className='all-genres'>
                         {genresList.map((genre) => (
-                            <div key={genre.id} onClick={() => setGenre(genre)} className='genre' title={genre.name}>
+                            <div key={genre.id} onClick={() => setGenre(genre)} className='genre group' title={genre.name}>
                                 <div className='background'>
                                     <img src={genre.image_background} alt={genre.name} />
                                 </div>
