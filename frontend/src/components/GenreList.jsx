@@ -33,6 +33,8 @@ const GenreList = ({ setGenre }) => {
                 return;
             }
 
+            data.results.sort((a, b) => a.name.localeCompare(b.name));
+
             setGenresList(data.results);
 
         } catch (error) {
