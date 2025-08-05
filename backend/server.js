@@ -5,8 +5,6 @@ const session = require("express-session")
 const port = 3000;
 require('dotenv').config();
 
-let users = [{ username: 'Aparneet', email: 'abc@gmail.com', password: '12345' }];
-
 const origin = process.env.NODE_ENV === 'production' ? 'https://bit-arcade.vercel.app' : 'http://localhost:5173';
 
 const GAMES_API_URL = 'https://api.rawg.io/api';
@@ -39,10 +37,6 @@ app.use(session({
 		maxAge: 1000 * 60 * 60 * 24 // 1 day
 	}
 }))
-
-app.get('/', (req, res) => {
-	res.json({ 'users': users, 'origin': origin });
-})
 
 app.get('/games', async (req,res) => {
 	const {query} = req.query;
@@ -88,7 +82,6 @@ app.get('/gameSlug', async (req,res) => {
 
 app.get('/similargames', async (req,res) => {
 	const {genre} = req.query;
-	console.log(genre);
 
 	try {
 		const response = await fetch(`${GAMES_API_URL}/games?genres=${genre}&key=${process.env.NODE_API_KEY}&page=1&page_size=7&ordering=-rating`);
@@ -153,70 +146,47 @@ app.get('/genregames', async (req,res) => {
 	}
 })
 
-app.get('/user', (req, res) => {
-	if (req.session.user) {
-		res.json({ isSignedIn: true, 'data': req.session.user });
+app.get('/session', (req,res) => {
+	res.json({'session': req.session.user});
+})
+
+app.post('/user', (req, res) => {
+	const {user} = req.body;
+
+	if (user) {
+		req.session.user = user
+		res.json({ isSignedIn: true, 'user': req.session.user });
 	} else {
-		res.json({ isSignedIn: false, 'data': req.session.user || 'Empty' });
+		res.json({ isSignedIn: false, 'user': {} });
 	}
 });
 
 app.post('/login', (req, res) => {
-	const { email, password } = req.body;
+	const { login } = req.body;
 
-	const user = users.find(user => user.email === email);
+	console.log(login)
 
-	if (user) {
-		if (user.password === password){
-			req.session.user = user;
-			res.json({'errorMessage': ''});
-		} else {
-			res.json({'errorMessage': 'Incorrect Password!'})
-		}
-	} else {
-		res.json({ 'errorMessage': 'User not found!'});
-	}
-})
-
-app.post('/signup', (req, res) => {
-	const { username, email, password } = req.body;
-
-	const user = users.find(user => user.email === email);
-
-	if (!user) {
-		req.session.user = { username, email, password };
-		users.push(req.session.user);
+	if(login) {
 		res.json({'errorMessage': ''});
 	} else {
-		res.json({ 'errorMessage': 'User is already registered!'});
+		res.json({'errorMessage': 'Incorrect email or password'});
 	}
 })
 
 app.post('/logout', (req, res) => {
-	const { action } = req.body;
+	const {logout} = req.body;
 
-	if (action === 'logout') {
+	if(logout){
 		req.session.destroy((err) => {
 			if (err) {
 				console.log('Error signing out');
 				res.status(500).send('Log out Fail');
 			}
 			res.clearCookie('BitArcade.sid');
-			res.status(200).json({ message: 'Logged out' });
+			res.status(200).json({ 'result': true });
 		})
-	} else if (action === 'delete') {
-		const currentUser = req.session.user;
-
-		users = users.filter(user => user.email !== currentUser.email);
-
-		req.session.destroy((err) => {
-			if (err) {
-				console.log('Error signing out');
-				res.status(500).send('Log out Fail');
-			}
-			res.clearCookie('BitArcade.sid');
-			res.status(200).json({ message: 'Account Deleted' });
-		})
+	} else {
+		res.json({'result': false});
 	}
 })
 

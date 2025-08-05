@@ -12,13 +12,9 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { useDebounce } from 'react-use';
 import GamePreview, { GameLoader } from './pages/GamePreview';
 import Genres from './pages/Genres';
+import authservice from './appwrite/auth';
 
 const API_URL = import.meta.env.VITE_API_URL;
-
-const API_OPTION = {
-	method: 'GET',
-	credentials: 'include'
-}
 
 const App = () => {
 
@@ -26,7 +22,7 @@ const App = () => {
 	const [genre, setGenre] = useState('')
 	const [isSignedIn, setIsSignedIn] = useState(null);
 	const [searchTerm, setSearchTerm] = useState('');
-	const [userData, setUserData] = useState([]);
+	const [userData, setUserData] = useState({});
 
 	useDebounce(() =>
 		setDebouncedSearchTerm(searchTerm),
@@ -36,7 +32,16 @@ const App = () => {
 
 	const fetchUser = async () => {
 		try {
-			const response = await fetch(`${API_URL}/user`, API_OPTION);
+			const session = await authservice.getCurrentUser();
+
+			const response = await fetch(`${API_URL}/user`, {
+				method: 'POST',
+				headers:{
+					'content-type': 'application/json'
+				},
+				credentials: 'include',
+				body: JSON.stringify({user: session}),
+			});
 
 			if (!response.ok) {
 				throw new Error('Response is not okay');
@@ -44,13 +49,13 @@ const App = () => {
 
 			const data = await response.json();
 
-			if (data.data.length === 0) {
+			if (Object.keys(data.user).length === 0) {
 				setUserData([]);
 				return;
 			}
 
-			setUserData(data.data);
 			setIsSignedIn(data.isSignedIn);
+			setUserData(data.user);
 		} catch (error) {
 			console.log(`Error fetching user from backend: ${error}`)
 			setIsSignedIn(false);
@@ -76,7 +81,7 @@ const App = () => {
 				path: "authentication/:mode",
 				element: (
 					<ProtectedRoute isSignedIn={isSignedIn} page="auth">
-						<Authentication setIsSignedIn={setIsSignedIn} />
+						<Authentication />
 					</ProtectedRoute>
 				),
 			},

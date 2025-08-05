@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, NavLink, useParams } from 'react-router';
 import Spinner from '../components/Spinner.jsx'
+import authservice from '../appwrite/auth.js';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -21,19 +22,20 @@ const Authentication = () => {
 		setIsLoading(true);
 		setAuthErrorMessage('');
 
-		const endpoint = action ? 'login' : 'signup';
-		const payload = action ?
-			{ email: email, password: password }
-			: { username: username, email: email, password: password };
-
 		try {
-			const response = await fetch(`${API_URL}/${endpoint}`, {
+			const logIn = action ?
+			await authservice.logIn({email,password})
+			: await authservice.createAccount({email, password, username});
+
+			console.log(logIn);
+
+			const response = await fetch(`${API_URL}/login`, {
 				method: 'POST',
 				headers: {
 					'content-type': 'application/json'
 				},
 				credentials: 'include',
-				body: JSON.stringify(payload),
+				body: JSON.stringify({'login': logIn}),
 			});
 
 			if (!response.ok) {
@@ -42,21 +44,17 @@ const Authentication = () => {
 
 			const data = await response.json();
 
-			setAuthErrorMessage(data.errorMessage);
-
 			if(data.errorMessage === ''){
-				setInterval(() => {
-					Navigate('/');
-					window.location.reload();
-				}, 1000);
+				Navigate('/');
+				window.location.reload();
 			}
+
+			setAuthErrorMessage(data.errorMessage || '');
 
 		} catch (error) {
 			console.log(`Auth failed: ${error}`);
 		} finally {
-			setInterval(() => {
-				setIsLoading(false);
-			}, 1000);
+			setIsLoading(false);
 		}
 	}
 
@@ -92,6 +90,7 @@ const Authentication = () => {
 								<p>Username</p>
 								<input
 									className='outline-none w-full border-[2px] border-[#000000]/75 rounded-full pl-3 '
+									name='username'
 									type="text"
 									value={username}
 									onChange={(e) => setUsername(e.target.value)}
@@ -104,7 +103,8 @@ const Authentication = () => {
 							<p>Email</p>
 							<input
 								className='outline-none w-full border-[2px] border-[#000000]/75 rounded-full pl-3 '
-								type="mail"
+								name='email'
+								type='email'
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
 								required
@@ -115,6 +115,7 @@ const Authentication = () => {
 							<p>Password</p>
 							<input
 								className='outline-none w-full border-[2px] border-[#000000]/75 rounded-full pl-3 '
+								name='password'
 								type="password"
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}

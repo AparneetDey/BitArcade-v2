@@ -4,6 +4,7 @@ import { ScrollRestoration, useNavigate } from 'react-router';
 import { useScreenSize } from '../components/useScreenSize';
 import Search from '../components/Search';
 import ScrollToTop from '../components/ScrollToTop';
+import authservice from '../appwrite/auth';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -11,22 +12,38 @@ const Profile = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) =
   const navigate = useNavigate();
 
   const [deleteAccount, setDeleteAccount] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('')
   const [hasMounted, setHasMounted] = useState(false);
   const [logOut, setLogOut] = useState(false);
 
-  const handleLogOut = async (actionType) => {
+  const handleLogOut = async () => {
+    setErrorMessage('');
+
     try {
-      await fetch(`${API_URL}/logout`, {
+      const logOut = await authservice.logOut();
+
+      const response = await fetch(`${API_URL}/logout`, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ action: actionType }), // <-- "logout" or "delete"
+        body: JSON.stringify({ logout: logOut }),
       });
 
-      navigate('/');
-      window.location.reload()
+      if(!response.ok){
+        throw new Error('Response is not okay');
+      }
+
+      const data = await response.json();
+
+      if(data.result){
+        navigate('/');
+        window.location.reload()
+        return;
+      }
+
+      setErrorMessage('Not able to logout right now.')
     } catch (error) {
       console.log(`Error in Logging out: ${error}`);
     }
@@ -74,9 +91,15 @@ const Profile = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) =
               <img src="/profile-icon.png" alt="Profile Icon" />
             </div>
             <div className='data'>
-              <h2>{userData.username}</h2>
+
+              <h2>{userData.name}</h2>
+
               <p className='text-white text-[18px]'>{userData.email}</p>
+
+              {errorMessage ? (<p className='text-red-500'>{errorMessage}</p>) : ''}
+
               <button onClick={(e) => setLogOut(!logOut)} className='hover:bg-[#fff] hover:text-[#000]'>Log out</button>
+
               <button onClick={(e) => setDeleteAccount(!deleteAccount)} className='hover:bg-[red] hover:border-[red]'>Delete Account</button>
             </div>
           </div>
