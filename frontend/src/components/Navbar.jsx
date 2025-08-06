@@ -13,7 +13,7 @@ const Navbar = ({searchTerm, setSearchTerm, userData}) => {
 			{width <= 480 ? '' 
 			:<Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 			}
-			{userData.username ? 
+			{userData.name ? 
 			(<NavLink to={'/profile'} className={'profile-icon'}>
 				<img src="/profile-icon.png" alt="Profile Icon" />
 			</NavLink>)

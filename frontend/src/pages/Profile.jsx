@@ -4,57 +4,86 @@ import { ScrollRestoration, useNavigate } from 'react-router';
 import { useScreenSize } from '../components/useScreenSize';
 import Search from '../components/Search';
 import ScrollToTop from '../components/ScrollToTop';
+import authservice from '../appwrite/auth';
+import Spinner from '../components/Spinner';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Profile = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) => {
   const navigate = useNavigate();
 
-  const [deleteAccount, setDeleteAccount] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [hasMounted, setHasMounted] = useState(false);
+  const [isModalActive, setIsModalActive] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [logOut, setLogOut] = useState(false);
 
-  const handleLogOut = async (actionType) => {
+  const handleLogOut = async () => {
+    setIsLoading(true)
+    setErrorMessage('');
+
     try {
-      await fetch(`${API_URL}/logout`, {
+      const logOut = await authservice.logOut();
+
+      const response = await fetch(`${API_URL}/logout`, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ action: actionType }), // <-- "logout" or "delete"
+        body: JSON.stringify({ logout: logOut }),
       });
 
-      navigate('/');
-      window.location.reload()
+      if (!response.ok) {
+        throw new Error('Response is not okay');
+      }
+
+      const data = await response.json();
+
+      if (data.result) {
+        navigate('/');
+        window.location.reload()
+        return;
+      }
+
+      setErrorMessage('Not able to logout right now.')
     } catch (error) {
       console.log(`Error in Logging out: ${error}`);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   useEffect(() => {
     if (logOut) {
-      handleLogOut('logout')
+      handleLogOut()
       setLogOut(!logOut);
-    } if (deleteAccount) {
-      handleLogOut('delete')
-      setDeleteAccount(!deleteAccount);
     }
-  }, [logOut, deleteAccount]);
+  }, [logOut]);
 
   useEffect(() => {
-    if(!hasMounted) return;
+    if(isModalActive){
+      document.body.classList.add("overflow-hidden")
+    } else {
+      document.body.classList.remove("overflow-hidden")
+    }
+  }, [isModalActive])
+  
 
-    if(searchTerm){ 
+
+  useEffect(() => {
+    if (!hasMounted) return;
+
+    if (searchTerm) {
       navigate('/');
     }
-	}, [debouncedSearchTerm, hasMounted]);
+  }, [debouncedSearchTerm, hasMounted]);
 
   useEffect(() => {
     setHasMounted(true);
   }, [])
 
-  const {width, height} = useScreenSize();
+  const { width, height } = useScreenSize();
 
   return (
     <main>
@@ -74,10 +103,16 @@ const Profile = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) =
               <img src="/profile-icon.png" alt="Profile Icon" />
             </div>
             <div className='data'>
-              <h2>{userData.username}</h2>
+
+              <h2>{userData.name}</h2>
+
               <p className='text-white text-[18px]'>{userData.email}</p>
-              <button onClick={(e) => setLogOut(!logOut)} className='hover:bg-[#fff] hover:text-[#000]'>Log out</button>
-              <button onClick={(e) => setDeleteAccount(!deleteAccount)} className='hover:bg-[red] hover:border-[red]'>Delete Account</button>
+
+              {errorMessage ? (<p className='text-red-500'>{errorMessage}</p>) : ''}
+
+              <button onClick={(e) => setLogOut(!logOut)} className='hover:bg-[#fff] hover:text-[#000]'>
+                {isLoading ? (<Spinner />) : 'Log Out'}
+              </button>
             </div>
           </div>
         </div>

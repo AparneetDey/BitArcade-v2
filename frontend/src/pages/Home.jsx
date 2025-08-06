@@ -83,7 +83,7 @@ const Home = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) => {
         <section className='hero'>
           <p className='main-liner'>From retro gems to modern epics – explore the world of games in one place.</p>
           <p className='sub-liner'>Detailed insights, game art, trailers, and more – all at your fingertips.</p>
-          {userData.username ? '' : <NavLink to={'/authentication/login'}><Button content={"Join For Free"} /></NavLink>}
+          {userData.name ? '' : <NavLink to={'/authentication/login'}><Button content={"Join For Free"} /></NavLink>}
           <div className='poster'>
             <img src="./hero-poster.png" alt="Hero Poster" />
           </div>

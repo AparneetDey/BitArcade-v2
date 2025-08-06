@@ -159,7 +159,7 @@
             @apply flex flex-col gap-1;
         }
 
-        .btn {
+        .all-inputs .btn {
             @apply border-[2px] border-[#000000]/75 rounded-full px-8 py-2 hover:bg-[#cbcbcb] active:bg-[#acacac] cursor-pointer;
         }
 
