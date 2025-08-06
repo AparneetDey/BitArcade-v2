@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, NavLink, useParams } from 'react-router';
 import Spinner from '../components/Spinner.jsx'
+import ScrollToTop from '../components/ScrollToTop.jsx'
 import authservice from '../appwrite/auth.js';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -26,8 +27,6 @@ const Authentication = () => {
 			const logIn = action ?
 			await authservice.logIn({email,password})
 			: await authservice.createAccount({email, password, username});
-
-			console.log(logIn);
 
 			const response = await fetch(`${API_URL}/login`, {
 				method: 'POST',
@@ -72,6 +71,7 @@ const Authentication = () => {
 
 	return (
 		<div className='authentication'>
+			<ScrollToTop />
 			<section>
 				<div className='auth-poster'>
 					<img src={bgImage} alt={action ? 'Login BG' : 'Signup BG'} />
