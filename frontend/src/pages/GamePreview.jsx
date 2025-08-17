@@ -131,18 +131,10 @@ const GamePreview = ({ searchTerm, setSearchTerm, userData, isSignedIn, debounce
 
           <h2>{name ? name : 'NA'}</h2>
 
-          <div className=' flex gap-2'>
-
+          <div className='flex'>
             <div className=' icon ' title='Ratings'>  {/* Rating */}
               <p className='font-[500] text-[14px]'>{rating > 0 ? `${rating}/5 (${ratings_count})` : 'N/A'}</p>
             </div>
-
-            {isSignedIn ? (
-              <div className='icon cursor-pointer' onClick={(e) => setSaved(!saved)} title='Favourite' >  {/* Save */}
-                <img className='w-5 h-5 object-cover' src={heartImg} alt="Heart Icon" />
-              </div>
-            ) : ''}
-
           </div>
 
         </div>

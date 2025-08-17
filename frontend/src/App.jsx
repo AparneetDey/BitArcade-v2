@@ -20,12 +20,12 @@ const API_URL = import.meta.env.VITE_API_URL;
 // Component to track current page
 const PageTracker = ({ children }) => {
 	const location = useLocation();
-	
+
 	useEffect(() => {
 		// Save current page to localStorage
 		localStorage.setItem('lastVisitedPage', location.pathname);
 	}, [location]);
-	
+
 	return children;
 };
 
@@ -50,11 +50,11 @@ const App = () => {
 
 			const response = await fetch(`${API_URL}/session`, {
 				method: 'POST',
-				headers:{
+				headers: {
 					'content-type': 'application/json'
 				},
 				credentials: 'include',
-				body: JSON.stringify({user: session}),
+				body: JSON.stringify({ user: session }),
 			});
 
 			if (!response.ok) {
@@ -80,13 +80,13 @@ const App = () => {
 				credentials: "include"
 			});
 
-			if(!response.ok){
+			if (!response.ok) {
 				throw new Error('Response is not okay');
 			}
 
 			const data = await response.json();
 
-			if(Object.keys(data.user).length === 0){
+			if (Object.keys(data.user).length === 0) {
 				setUserData({});
 				setIsSignedIn(false);
 				return
@@ -95,7 +95,7 @@ const App = () => {
 			setUserData(data.user);
 			setIsSignedIn(true);
 		} catch (error) {
-			console.log('Error fetching user form backend: ',error);
+			console.log('Error fetching user form backend: ', error);
 			setIsSignedIn(false);
 		}
 	}
@@ -117,7 +117,7 @@ const App = () => {
 				setIsLoading(false);
 			}
 		};
-		
+
 		checkAuth();
 	}, []);
 
@@ -132,12 +132,16 @@ const App = () => {
 		[
 			{
 				path: '/',
-				element: <PageTracker><Home
-					searchTerm={searchTerm}
-					setSearchTerm={setSearchTerm}
-					userData={userData}
-					debouncedSearchTerm={debouncedSearchTerm}
-				/></PageTracker>
+				element: <PageTracker>
+					<ProtectedRoute isSignedIn={isSignedIn} isLoading={isLoading} page="home">
+						<Home
+							searchTerm={searchTerm}
+							setSearchTerm={setSearchTerm}
+							userData={userData}
+							debouncedSearchTerm={debouncedSearchTerm}
+						/>
+					</ProtectedRoute>
+				</PageTracker>
 			},
 			{
 				path: "authentication/:mode",
@@ -163,27 +167,35 @@ const App = () => {
 			{
 				path: "game/:slug",
 				element: (
-					<PageTracker><GamePreview
-						searchTerm={searchTerm}
-						setSearchTerm={setSearchTerm}
-						userData={userData}
-						isSignedIn={isSignedIn}
-						debouncedSearchTerm={debouncedSearchTerm}
-					/></PageTracker>
+					<PageTracker>
+						<ProtectedRoute isSignedIn={isSignedIn} isLoading={isLoading} page="gamePreview">
+							<GamePreview
+								searchTerm={searchTerm}
+								setSearchTerm={setSearchTerm}
+								userData={userData}
+								isSignedIn={isSignedIn}
+								debouncedSearchTerm={debouncedSearchTerm}
+							/>
+						</ProtectedRoute>
+					</PageTracker>
 				),
 				loader: GameLoader,
 			},
 			{
 				path: "genres",
 				element: (
-					<PageTracker><Genres
-						searchTerm={searchTerm}
-						setSearchTerm={setSearchTerm}
-						userData={userData}
-						genre={genre}
-						setGenre={setGenre}
-						debouncedSearchTerm={debouncedSearchTerm}
-					/></PageTracker>
+					<PageTracker>
+						<ProtectedRoute isSignedIn={isSignedIn} isLoading={isLoading} page="genres">
+							<Genres
+								searchTerm={searchTerm}
+								setSearchTerm={setSearchTerm}
+								userData={userData}
+								genre={genre}
+								setGenre={setGenre}
+								debouncedSearchTerm={debouncedSearchTerm}
+							/>
+						</ProtectedRoute>
+					</PageTracker>
 				)
 			}
 		]);

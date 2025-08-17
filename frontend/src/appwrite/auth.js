@@ -60,17 +60,6 @@ class AuthService {
         }
         return false;
     }
-
-    async deleteAccount() {
-        try {
-            // Delete the current user account using the client
-            await this.account.delete();
-            return true;
-        } catch (error) {
-            console.log('Appwrite Service :: Error Deleting Account ::',error);
-        }
-        return false;
-    }
 }
 
 const authservice = new AuthService();
