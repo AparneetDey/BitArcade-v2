@@ -262,7 +262,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you have any questions or need help with the project, please:
 
-1. Check the [Issues](https://github.com/yourusername/BitArcade-v2/issues) page
+1. Check the [Issues](https://github.com/AparneetDey/BitArcade-v2/issues) page
 2. Create a new issue if your problem isn't already addressed
 3. Contact the maintainer directly
 
