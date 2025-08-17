@@ -177,7 +177,7 @@
     }
 
     .profile-info {
-        @apply flex justify-center items-center md:justify-start md:items-start ;
+        @apply flex justify-center items-center ;
 
         .profile-pic {
             @apply min-w-[180px] min-h-[180px] max-w-[180px] max-h-[180px] flex justify-center items-end rounded-full border-[2px] border-[#ffffff] overflow-hidden;
@@ -192,7 +192,7 @@
         }
 
         .data {
-            @apply flex flex-col gap-2 justify-center items-center md:items-start;
+            @apply flex flex-col gap-2 justify-center items-center;
         }
 
         .data button {

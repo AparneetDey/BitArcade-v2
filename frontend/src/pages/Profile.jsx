@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
-import { ScrollRestoration, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useScreenSize } from '../components/useScreenSize';
 import Search from '../components/Search';
 import ScrollToTop from '../components/ScrollToTop';
 import authservice from '../appwrite/auth';
 import Spinner from '../components/Spinner';
+
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -14,8 +15,7 @@ const Profile = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) =
 
   const [errorMessage, setErrorMessage] = useState('');
   const [hasMounted, setHasMounted] = useState(false);
-  const [isModalActive, setIsModalActive] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [logOut, setLogOut] = useState(false);
 
   const handleLogOut = async () => {
@@ -60,16 +60,6 @@ const Profile = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) =
       setLogOut(!logOut);
     }
   }, [logOut]);
-
-  useEffect(() => {
-    if(isModalActive){
-      document.body.classList.add("overflow-hidden")
-    } else {
-      document.body.classList.remove("overflow-hidden")
-    }
-  }, [isModalActive])
-  
-
 
   useEffect(() => {
     if (!hasMounted) return;
