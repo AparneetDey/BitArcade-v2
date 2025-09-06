@@ -13,8 +13,7 @@ dist-ssr
 # env files anywhere
 .env
 .env.*
-# keep samples if you want
-!.env.local
+*.env
 
 # Editor directories and files
 .vscode/*
