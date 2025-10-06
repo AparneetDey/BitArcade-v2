@@ -17,9 +17,9 @@ const Footer = () => {
             Made By Aparneet Dey
         </div>
         <ul className='flex gap-4'>
-            <li><a href="https://github.com/AparneetDey"><FontAwesomeIcon icon="fa-brands fa-github" size="xl" /></a></li>
-            <li><a href="https://www.linkedin.com/in/aparneet-dey-9098a5323/"><FontAwesomeIcon icon="fa-brands fa-linkedin" size="xl" /></a></li>
-            <li><a href="https://x.com/Mr_X800"><FontAwesomeIcon icon="fa-brands fa-x-twitter" size="xl" /></a></li>
+            <li><a href="https://github.com/AparneetDey" target='_blank'><FontAwesomeIcon icon="fa-brands fa-github" size="xl" /></a></li>
+            <li><a href="https://www.linkedin.com/in/aparneet-dey-9098a5323/" target='_blank'><FontAwesomeIcon icon="fa-brands fa-linkedin" size="xl" /></a></li>
+            <li><a href="https://x.com/Mr_X800" target='_blank'><FontAwesomeIcon icon="fa-brands fa-x-twitter" size="xl" /></a></li>
         </ul>
     </div>
   )

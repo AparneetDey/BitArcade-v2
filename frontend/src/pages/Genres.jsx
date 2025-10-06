@@ -7,6 +7,7 @@ import Spinner from '../components/Spinner';
 import Game from '../components/Game';
 import GenreList from '../components/GenreList';
 import { useNavigate } from 'react-router';
+import Footer from '../components/Footer';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -101,6 +102,10 @@ const Genres = ({ searchTerm, setSearchTerm, userData, genre, setGenre, debounce
                             ))}
                         </div>
                 }
+            </section>
+
+            <section>
+                <Footer />
             </section>
         </main>
     )

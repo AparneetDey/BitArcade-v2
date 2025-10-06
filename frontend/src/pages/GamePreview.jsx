@@ -7,6 +7,7 @@ import Spinner from '../components/Spinner';
 import GameDetails from '../components/GameDetails';
 import ScrollToTop from '../components/ScrollToTop';
 import Game from '../components/Game';
+import Footer from '../components/Footer';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -162,6 +163,10 @@ const GamePreview = ({ searchTerm, setSearchTerm, userData, isSignedIn, debounce
 
         {errorMessage && <p className='text-red-500'>{errorMessage}</p>}
 
+      </section>
+
+      <section>
+        <Footer />
       </section>
 
     </main>
