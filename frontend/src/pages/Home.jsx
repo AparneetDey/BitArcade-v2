@@ -7,6 +7,7 @@ import { NavLink } from 'react-router'
 import { useScreenSize } from '../components/useScreenSize'
 import Search from '../components/Search'
 import ScrollToTop from '../components/ScrollToTop'
+import Footer from '../components/Footer'
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -102,6 +103,11 @@ const Home = ({ searchTerm, setSearchTerm, userData, debouncedSearchTerm }) => {
               ))}
             </div>
         }
+      </section>
+
+
+      <section>
+        <Footer />
       </section>
     </main>
   )
